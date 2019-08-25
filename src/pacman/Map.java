@@ -55,10 +55,34 @@ public class Map {
 		this.grid = testMap;
 	}
 	
-	public void updatePlayerPosition() {
+	public void addPlayer(Player player) throws InvalidPlayerPositionException {
+		int i = player.currentCell.getRow();
+		int j = player.currentCell.getCol();
 		
+		if(GameLogic.isValidPlayerPossition(player.currentCell)) {
+			this.grid[i][j].setOccupant(player);
+		}
 	}
 
+	public void movePlayer(Player player, String direction) {
+		
+		int i = player.currentCell.getRow();
+		int j = player.currentCell.getCol();
+		Path path = new Path();
+		
+		
+		Cell newPos = GameLogic.getNewPosition( player,  direction, grid);
+		
+		int newI = newPos.getRow();
+		int newJ = newPos.getCol();
+		
+		System.out.println(newI+" "+newJ);
+		player.currentCell = newPos;
+
+		grid[i][j].occupant = path;
+		grid[newI][newJ].occupant = player;
+	}
+	
 	/*
 	 * Method to display a test graph
 	 */
@@ -66,13 +90,7 @@ public class Map {
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
-//				if(cellOccupant.getClass() == Path.class) {
-//					System.out.print(" ");
-//				}else {
-//					System.out.print(cellOccupant.getRepresentation());
-//				}
 				System.out.print(cellOccupant.getRepresentation());
-//				System.out.print(" ");
 			}
 			System.out.println();
 		}
