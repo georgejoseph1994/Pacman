@@ -62,7 +62,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			GameServer lServer = new GameServer();
             // Binding the remote object (stub) in the registry
             Registry reg = LocateRegistry.createRegistry(52369);
-            String url = "rmi://" + InetAddress.getLocalHost().getHostAddress() + ":52369/Hello";
+            String url = "rmi://localhost:52369/Hello";
 
             Naming.rebind(url, lServer);
 

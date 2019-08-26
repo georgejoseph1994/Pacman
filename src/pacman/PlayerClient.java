@@ -25,12 +25,14 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
         try
         {
             //Lookup for the service
-            String url = "rmi://" + InetAddress.getLocalHost().getHostAddress() + ":52369/Hello";
+        	System.out.println("Enter server IP: ");
+            Scanner input = new Scanner(System.in);
+            String url = "rmi://" + input.next() + ":52369/Hello";
             Remote lRemote = Naming.lookup(url);
             ServerRMIInterface lRemoteServer = (ServerRMIInterface) lRemote;
             
             System.out.println("Enter player number: ");
-            Scanner input = new Scanner(System.in);
+            input = new Scanner(System.in);
             String playerName = input.next();
             
             //Create a temperature monitor and register it as a Listener
