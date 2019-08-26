@@ -15,8 +15,12 @@ public class Game {
 		Cell startingCell2 = map.getCell(9, 9);
 		Player player2 = new Player(2,startingCell2);
 		
+		Cell monsterCell = map.getCell(5, 5);
+		Monster monster = new Monster(1,monsterCell);
+		
 		map.addPlayer(player1);
 		map.addPlayer(player2);
+		map.addMonster(monster);
 		
 		Scanner sc =new Scanner(System.in);
 		String input;
@@ -26,15 +30,19 @@ public class Game {
 			switch (input) {
 				case "w":{
 					map.movePlayer(player1, "U");
+					map.moveMonster(monster, player1);
 					break;
 				}case "a":{
 					map.movePlayer(player1, "L");
+					map.moveMonster(monster, player1);
 					break;
 				}case "s":{
 					map.movePlayer(player1, "D");
+					map.moveMonster(monster, player1);
 					break;
 				}case "d":{
 					map.movePlayer(player1, "R");
+					map.moveMonster(monster, player1);
 					break;
 				}
 			}
