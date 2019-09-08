@@ -91,9 +91,9 @@ public class GameLogic {
 	}
 
 	public static String getBestDirection(Cell source, Cell dest, String path, int terminateSize, Cell[][] grid) {
-		System.out.println("Current Path:" +path);
+//		System.out.println("Current Path:" +path);
 		if(source.getCol()==dest.getCol()&&source.getRow()==dest.getRow()) {
-			System.out.println("Path Found:"+path);
+//			System.out.println("Path Found:"+path);
 			return path;
 		}
 		if(path.length()>terminateSize) {
@@ -213,7 +213,7 @@ public class GameLogic {
 				rowChange++;
 		}
 		if(colChange==0&&rowChange==0) {
-			System.out.println("Circular Path:"+path);
+//			System.out.println("Circular Path:"+path);
 			return true;
 		}
 		return false;

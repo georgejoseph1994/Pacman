@@ -85,7 +85,7 @@ public class Map {
 		int newI = newPos.getRow();
 		int newJ = newPos.getCol();
 		
-		System.out.println(newI+" "+newJ);
+//		System.out.println(newI+" "+newJ);
 		player.currentCell = newPos;
 
 		grid[i][j].occupant = path;
@@ -95,7 +95,7 @@ public class Map {
 	public void moveMonster(Monster monster, Player player) {
 		
 		String bestPath = GameLogic.getBestDirection(monster.currentCell, player.currentCell, "", 10,grid);
-		System.out.println(bestPath);
+//		System.out.println(bestPath);
 		if(bestPath==null)
 			return;
 		else {
