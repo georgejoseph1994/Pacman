@@ -18,9 +18,9 @@ public class Game {
 		Cell monsterCell = map.getCell(5, 5);
 		Monster monster = new Monster(1,monsterCell);
 		
-		map.addPlayer(player1);
-		map.addPlayer(player2);
-		map.addMonster(monster);
+		map.addMovableOccupant(player1);
+		map.addMovableOccupant(player2);
+		map.addMovableOccupant(monster);
 		
 		Scanner sc =new Scanner(System.in);
 		String input;

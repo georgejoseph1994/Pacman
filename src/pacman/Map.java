@@ -55,6 +55,16 @@ public class Map {
 		this.grid = testMap;
 	}
 	
+	
+	public void addMovableOccupant(MovableOccupant movableOccupant) throws InvalidPlayerPositionException {
+		int i = movableOccupant.currentCell.getRow();
+		int j = movableOccupant.currentCell.getCol();
+		
+		if(GameLogic.isValidPlayerPossition(movableOccupant.currentCell)) {
+			this.grid[i][j].setOccupant(movableOccupant);
+		}
+	}
+	
 	public void addPlayer(Player player) throws InvalidPlayerPositionException {
 		int i = player.currentCell.getRow();
 		int j = player.currentCell.getCol();
