@@ -1,4 +1,4 @@
-import java.rmi.Remote;
+ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ServerRMIInterface extends Remote {
@@ -8,5 +8,7 @@ public interface ServerRMIInterface extends Remote {
     void addPlayerListener(ClientRMIInterface addPlayerListener) throws RemoteException;
 
     void removePlayerListener(ClientRMIInterface addPlayerListener) throws RemoteException;
+    
+    void setMaxCount(int n) throws RemoteException;
 
 }
