@@ -1,5 +1,7 @@
 package pacman;
 
+import java.util.ArrayList;
+
 public class GameLogic {
 	
 	
@@ -90,11 +92,14 @@ public class GameLogic {
 		return grid[i][j];
 	}
 
-	public static String getBestDirection(Cell source, Cell dest, String path, int terminateSize, Cell[][] grid) {
-		System.out.println("Current Path:" +path);
-		if(source.getCol()==dest.getCol()&&source.getRow()==dest.getRow()) {
-			System.out.println("Path Found:"+path);
-			return path;
+	public static String getBestDirection(Cell source, ArrayList<Cell> cells, String path, int terminateSize, Cell[][] grid) {
+//		System.out.println("Current Path:" +path);
+		for( int i=0; i<cells.size() ; i++ ) {
+			//System.out.println(dest[i].getCol()+dest[i].getRow());
+			if(source.getCol()==cells.get(i).getCol()&&source.getRow()==cells.get(i).getRow()) {
+//				System.out.println("Path Found:"+path + " Row:" + dest[i].getRow()+ " Col:" + dest[i].getCol());
+				return path;
+			}
 		}
 		if(path.length()>terminateSize) {
 //			System.out.println("Limit Path:"+path);
@@ -111,10 +116,10 @@ public class GameLogic {
 			uPath = null;
 		}
 		else{
-			path+="U";
-			uPath = getBestDirection(uCell, dest, path, terminateSize,grid);
-			if(uPath==null)
-				path = removeLastChar(path);
+			uPath=path+"U";
+			uPath = getBestDirection(uCell, cells, uPath, terminateSize,grid);
+//			if(uPath==null)
+//				path = removeLastChar(path);
 		}
 		if(uPath==null){
 			uLength = terminateSize+1;
@@ -126,10 +131,10 @@ public class GameLogic {
 			lPath = null;
 		}
 		else{
-			path+="L";
-			lPath = getBestDirection(lCell, dest, path, terminateSize,grid);
-			if(lPath==null)
-				path = removeLastChar(path);
+			lPath=path+"L";
+			lPath = getBestDirection(lCell, cells, lPath, terminateSize,grid);
+//			if(lPath==null)
+//				path = removeLastChar(path);
 		}
 		if(lPath==null){
 			lLength = terminateSize+1;
@@ -141,10 +146,10 @@ public class GameLogic {
 			rPath=null;
 		}
 		else{
-			path+="R";
-			rPath =  getBestDirection(rCell, dest, path, terminateSize,grid);
-			if(rPath==null)
-				path = removeLastChar(path);
+			rPath=path+"R";
+			rPath =  getBestDirection(rCell, cells, rPath, terminateSize,grid);
+//			if(rPath==null)
+//				path = removeLastChar(path);
 		}
 		if(rPath==null) {
 			rLength = terminateSize+1;
@@ -156,10 +161,10 @@ public class GameLogic {
 			dPath = null;
 		}
 		else{
-			path+="D";
-			dPath = getBestDirection(dCell, dest, path, terminateSize,grid);
-			if(dPath==null)
-				path = removeLastChar(path);
+			dPath=path+"D";
+			dPath = getBestDirection(dCell, cells, dPath, terminateSize,grid);
+//			if(dPath==null)
+//				path = removeLastChar(path);
 		}
 		if(dPath==null){
 			dLength = terminateSize+1;
@@ -213,7 +218,7 @@ public class GameLogic {
 				rowChange++;
 		}
 		if(colChange==0&&rowChange==0) {
-			System.out.println("Circular Path:"+path);
+			//System.out.println("Circular Path:"+path);
 			return true;
 		}
 		return false;

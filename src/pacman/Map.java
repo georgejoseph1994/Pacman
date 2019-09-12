@@ -1,5 +1,7 @@
 package pacman;
 
+import java.util.ArrayList;
+
 public class Map {
 
 	final static int PLAYER1 = 1;
@@ -85,18 +87,21 @@ public class Map {
 		int newI = newPos.getRow();
 		int newJ = newPos.getCol();
 		
-		System.out.println(newI+" "+newJ);
+		//System.out.println(newI+" "+newJ);
 		player.currentCell = newPos;
 
 		grid[i][j].occupant = path;
 		grid[newI][newJ].occupant = player;
 	}
 	
-	public void moveMonster(Monster monster, Player player) {
+	public void moveMonster(Monster monster, ArrayList<Player> players) {
 		
-		String bestPath = GameLogic.getBestDirection(monster.currentCell, player.currentCell, "", 10,grid);
+		ArrayList<Cell> cells = new ArrayList<Cell>();
+		for( int i=0; i<players.size(); i++)
+			cells.add(players.get(i).currentCell);
+		String bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10,grid);
 		System.out.println(bestPath);
-		if(bestPath==null)
+		if(bestPath==null||bestPath=="")
 			return;
 		else {
 			int i = monster.currentCell.getRow();
