@@ -1,14 +1,9 @@
 package pacman;
 
-public class Monster extends Occupant{
-	int id;
-	char direction;
-	
-	Cell currentCell;
-	
+public class Monster extends MovableOccupant{
+
 	public Monster(int id,Cell startingCell) {
-		this.id = id;
+		super(id,startingCell);
 		this.representation = "  M ";
-		this.currentCell = startingCell;
 	}
 }
