@@ -69,7 +69,7 @@ public class Map {
 	public void addMonster(Monster monster) throws InvalidPlayerPositionException {
 		int i = monster.currentCell.getRow();
 		int j = monster.currentCell.getCol();
-		
+
 		if(GameLogic.isValidPlayerPossition(monster.currentCell)) {
 			this.grid[i][j].setOccupant(monster);
 		}
@@ -95,12 +95,12 @@ public class Map {
 	}
 	
 	public void moveMonster(Monster monster, ArrayList<Player> players) {
-		
+
 		ArrayList<Cell> cells = new ArrayList<Cell>();
 		for( int i=0; i<players.size(); i++)
 			cells.add(players.get(i).currentCell);
 		String bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10,grid);
-		System.out.println(bestPath);
+//		System.out.println(bestPath);
 		if(bestPath==null||bestPath=="")
 			return;
 		else {
@@ -109,7 +109,7 @@ public class Map {
 
 			Path path = new Path();
 			grid[i][j].occupant = path;
-			
+
 			Cell newPos = GameLogic.getNewMonsterPosition( monster,  String.valueOf(bestPath.charAt(0)), grid);
 			int newI = newPos.getRow();
 			int newJ = newPos.getCol();
@@ -118,8 +118,8 @@ public class Map {
 			grid[newI][newJ].occupant = monster;
 		}
 	}
-	
-	
+
+
 	/*
 	 * Method to display a test graph
 	 */
@@ -132,6 +132,6 @@ public class Map {
 			System.out.println();
 		}
 	}
-	
+
 
 }
