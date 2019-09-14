@@ -7,49 +7,49 @@ public class Game {
 
 	public static void main(String args[]) throws InvalidPlayerPositionException {
 
-		Map map = new Map();
-		map.initialiseTestMap();
+		PacmanMap pacmanMap = new PacmanMap();
+		pacmanMap.initialiseTestMap();
 		ArrayList<Player> players = new ArrayList<Player>();
-		Cell startingCell = map.getCell(1, 1);
+		Cell startingCell = pacmanMap.getCell(1, 1);
 		Player player1 = new Player(1,startingCell);
 		players.add( player1 );
-		
-		Cell startingCell2 = map.getCell(9, 9);
+
+		Cell startingCell2 = pacmanMap.getCell(9, 9);
 		Player player2 = new Player(2,startingCell2);
 		players.add( player2 );
-		
-		Cell monsterCell = map.getCell(5, 5);
+
+		Cell monsterCell = pacmanMap.getCell(5, 5);
 		Monster monster = new Monster(1,monsterCell);
 		
-		map.addPlayer(player1);
-		map.addPlayer(player2);
-		map.addMonster(monster);
+		pacmanMap.addPlayer(player1);
+		pacmanMap.addPlayer(player2);
+		pacmanMap.addMonster(monster);
 		
 		Scanner sc =new Scanner(System.in);
 		String input;
-		map.displayGrid();
+		pacmanMap.displayGrid();
 		while(true) {
 			input = sc.next();
 			switch (input) {
 				case "w":{
-					map.movePlayer(player1, "U");
-					map.moveMonster(monster, players);
+					pacmanMap.movePlayer(player1, "U");
+					pacmanMap.moveMonster(monster, players);
 					break;
 				}case "a":{
-					map.movePlayer(player1, "L");
-					map.moveMonster(monster, players);
+					pacmanMap.movePlayer(player1, "L");
+					pacmanMap.moveMonster(monster, players);
 					break;
 				}case "s":{
-					map.movePlayer(player1, "D");
-					map.moveMonster(monster, players);
+					pacmanMap.movePlayer(player1, "D");
+					pacmanMap.moveMonster(monster, players);
 					break;
 				}case "d":{
-					map.movePlayer(player1, "R");
-					map.moveMonster(monster, players);
+					pacmanMap.movePlayer(player1, "R");
+					pacmanMap.moveMonster(monster, players);
 					break;
 				}
 			}
-			map.displayGrid();
+			pacmanMap.displayGrid();
 		}
 
 	}

@@ -2,7 +2,7 @@ package pacman;
 
 import java.util.ArrayList;
 
-public class Map {
+public class PacmanMap {
 
 	final static int PLAYER1 = 1;
 	final static int PLAYER2 = 2;
@@ -17,11 +17,11 @@ public class Map {
 
 	Cell grid[][];
 
-	public Map() {
+	public PacmanMap() {
 
 	}
 
-	public Map(Cell[][] grid) {
+	public PacmanMap(Cell[][] grid) {
 		this.grid = grid;
 	}
 
@@ -57,6 +57,16 @@ public class Map {
 		this.grid = testMap;
 	}
 	
+
+	public void addMovableOccupant(MovableOccupant movableOccupant) throws InvalidPlayerPositionException {
+		int i = movableOccupant.currentCell.getRow();
+		int j = movableOccupant.currentCell.getCol();
+
+		if(GameLogic.isValidPlayerPossition(movableOccupant.currentCell)) {
+			this.grid[i][j].setOccupant(movableOccupant);
+		}
+	}
+
 	public void addPlayer(Player player) throws InvalidPlayerPositionException {
 		int i = player.currentCell.getRow();
 		int j = player.currentCell.getCol();
@@ -69,7 +79,7 @@ public class Map {
 	public void addMonster(Monster monster) throws InvalidPlayerPositionException {
 		int i = monster.currentCell.getRow();
 		int j = monster.currentCell.getCol();
-
+		
 		if(GameLogic.isValidPlayerPossition(monster.currentCell)) {
 			this.grid[i][j].setOccupant(monster);
 		}
@@ -109,7 +119,7 @@ public class Map {
 
 			Path path = new Path();
 			grid[i][j].occupant = path;
-
+			
 			Cell newPos = GameLogic.getNewMonsterPosition( monster,  String.valueOf(bestPath.charAt(0)), grid);
 			int newI = newPos.getRow();
 			int newJ = newPos.getCol();
@@ -118,20 +128,23 @@ public class Map {
 			grid[newI][newJ].occupant = monster;
 		}
 	}
-
-
+	
+	
 	/*
 	 * Method to display a test graph
 	 */
-	public void displayGrid() {
+	public String[][] displayGrid() {
+		String[][] mapMatrix = new String[11][11];
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
+				mapMatrix[i][j] = cellOccupant.getRepresentation();
 				System.out.print(cellOccupant.getRepresentation());
 			}
 			System.out.println();
 		}
+		return mapMatrix;
 	}
-
+	
 
 }
