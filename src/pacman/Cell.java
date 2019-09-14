@@ -43,5 +43,11 @@ public class Cell {
 	public void setOccupant(Occupant occupant) {
 		this.occupant = occupant;
 	}
+	
+	public boolean equals(Cell cell) {
+		if(this.col==cell.col&&this.row==cell.row)
+			return true;
+		return false;
+	}
 
 }

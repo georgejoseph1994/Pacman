@@ -15,6 +15,8 @@ public class GameLogic {
 			throw new InvalidPlayerPositionException("Player moved to a wadll");
 		}else if(cell.getOccupant().getClass().getName() == "pacman.Player") {
 			throw new InvalidPlayerPositionException("Player moved to another players position");
+		}else if(cell.getOccupant().getClass().getName() == "pacman.Monster") {
+			throw new InvalidPlayerPositionException("Player moved to another monster position");
 		}
 		return true;
 	}

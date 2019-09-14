@@ -86,33 +86,33 @@ public class PacmanMap {
 	}
 
 	public void movePlayer(Player player, String direction) {
-		
-		int i = player.currentCell.getRow();
-		int j = player.currentCell.getCol();
-		Path path = new Path();
-		
-		
-		Cell newPos = GameLogic.getNewPosition( player,  direction, grid);
-		
-		int newI = newPos.getRow();
-		int newJ = newPos.getCol();
-		
-		//System.out.println(newI+" "+newJ);
-		player.currentCell = newPos;
-
-		grid[i][j].occupant = path;
-		grid[newI][newJ].occupant = player;
+		if(direction!=null) {
+			int i = player.currentCell.getRow();
+			int j = player.currentCell.getCol();
+			Path path = new Path();
+			
+			
+			Cell newPos = GameLogic.getNewPosition( player,  direction, grid);
+			
+			int newI = newPos.getRow();
+			int newJ = newPos.getCol();
+			
+			//System.out.println(newI+" "+newJ);
+			player.currentCell = newPos;
+	
+			grid[i][j].occupant = path;
+			grid[newI][newJ].occupant = player;
+		}
 	}
 	
-	public void moveMonster(Monster monster, ArrayList<Player> players) {
-
+	public Player moveMonster(Monster monster, ArrayList<Player> players) {
+		Player playerFailed = null;
 		ArrayList<Cell> cells = new ArrayList<Cell>();
 		for( int i=0; i<players.size(); i++)
 			cells.add(players.get(i).currentCell);
 		String bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10,grid);
-//		System.out.println(bestPath);
 		if(bestPath==null||bestPath=="")
-			return;
+			return playerFailed;
 		else {
 			int i = monster.currentCell.getRow();
 			int j = monster.currentCell.getCol();
@@ -125,7 +125,16 @@ public class PacmanMap {
 			int newJ = newPos.getCol();
 
 			monster.currentCell = newPos;
+			if(grid[newI][newJ].occupant.getClass().getName() == "pacman.Player") {
+				for( int k=0; k<players.size(); k++) {
+					if(players.get(k).currentCell.equals(monster.currentCell)) {
+						playerFailed = players.get(k);
+					}
+						
+				}
+			}
 			grid[newI][newJ].occupant = monster;
+			return playerFailed;
 		}
 	}
 	
@@ -139,9 +148,9 @@ public class PacmanMap {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
 				mapMatrix[i][j] = cellOccupant.getRepresentation();
-				System.out.print(cellOccupant.getRepresentation());
+//				System.out.print(cellOccupant.getRepresentation());
 			}
-			System.out.println();
+//			System.out.println();
 		}
 		return mapMatrix;
 	}
