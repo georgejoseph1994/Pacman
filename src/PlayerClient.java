@@ -1,15 +1,12 @@
 
 
-import java.net.InetAddress;
-import java.util.Map;
 import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-import pacman.Occupant;
-import pacman.PacmanMap;
+import javax.swing.JFrame;
 
 public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterface {
 
@@ -21,6 +18,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	private static volatile boolean isGameOngoing=false;
 	private static int playerName;
 	private static Scanner input = new Scanner(System.in);
+	private Renderer renderer;
 
 	protected PlayerClient() throws RemoteException
 	{
@@ -81,6 +79,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 
     public void mapChanged(String[][] grid) throws RemoteException
     {	
+    	renderer.setMap(grid);
     	for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {			
 				System.out.print(grid[i][j]); 
@@ -94,6 +93,18 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
     	 try
          {
 			isGameOngoing=true;
+			renderer = new Renderer();
+			JFrame frame = new JFrame();
+			frame.setTitle(Renderer.TITLE);
+			frame.add(renderer);
+			frame.setResizable(false);
+			frame.pack();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setLocationRelativeTo(null);
+			
+			frame.setVisible(true);
+			
+			renderer.start();
 		}
 		catch (Exception aInE)
 		{

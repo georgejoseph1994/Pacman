@@ -147,7 +147,7 @@ public class PacmanMap {
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
-				mapMatrix[i][j] = cellOccupant.getRepresentation();
+				mapMatrix[i][j] = cellOccupant.getIdentity();
 //				System.out.print(cellOccupant.getRepresentation());
 			}
 //			System.out.println();
