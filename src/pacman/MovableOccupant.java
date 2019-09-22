@@ -11,4 +11,15 @@ public class MovableOccupant extends Occupant{
 		
 		this.currentCell = startingCell;
 	}
+
+	public Cell getCurrentCell() {
+		return currentCell;
+	}
+
+
+	public void setCurrentCell(Cell currentCell) {
+		this.currentCell = currentCell;
+	}
+	
+	
 }

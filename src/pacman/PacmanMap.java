@@ -1,5 +1,9 @@
 package pacman;
 
+import java.util.ArrayList;
+
+import exception.NoPathException;
+
 public class PacmanMap {
 
 	final static int PLAYER1 = 1;
@@ -55,16 +59,16 @@ public class PacmanMap {
 		this.grid = testMap;
 	}
 	
-	
+
 	public void addMovableOccupant(MovableOccupant movableOccupant) throws InvalidPlayerPositionException {
 		int i = movableOccupant.currentCell.getRow();
 		int j = movableOccupant.currentCell.getCol();
-		
+
 		if(GameLogic.isValidPlayerPossition(movableOccupant.currentCell)) {
 			this.grid[i][j].setOccupant(movableOccupant);
 		}
 	}
-	
+
 	public void addPlayer(Player player) throws InvalidPlayerPositionException {
 		int i = player.currentCell.getRow();
 		int j = player.currentCell.getCol();
@@ -84,30 +88,38 @@ public class PacmanMap {
 	}
 
 	public void movePlayer(Player player, String direction) {
-		
-		int i = player.currentCell.getRow();
-		int j = player.currentCell.getCol();
-		Path path = new Path();
-		
-		
-		Cell newPos = GameLogic.getNewPosition( player,  direction, grid);
-		
-		int newI = newPos.getRow();
-		int newJ = newPos.getCol();
-		
-//		System.out.println(newI+" "+newJ);
-		player.currentCell = newPos;
-
-		grid[i][j].occupant = path;
-		grid[newI][newJ].occupant = player;
+		if(direction!=null) {
+			int i = player.currentCell.getRow();
+			int j = player.currentCell.getCol();
+			Path path = new Path();
+			
+			
+			Cell newPos = GameLogic.getNewPosition( player,  direction, grid);
+			
+			int newI = newPos.getRow();
+			int newJ = newPos.getCol();
+			
+			//System.out.println(newI+" "+newJ);
+			player.currentCell = newPos;
+	
+			grid[i][j].occupant = path;
+			grid[newI][newJ].occupant = player;
+		}
 	}
 	
-	public void moveMonster(Monster monster, Player player) {
-		
-		String bestPath = GameLogic.getBestDirection(monster.currentCell, player.currentCell, "", 10,grid);
-//		System.out.println(bestPath);
-		if(bestPath==null)
-			return;
+	public Player moveMonster(Monster monster, ArrayList<Player> players) {
+		Player playerFailed = null;
+		ArrayList<Cell> cells = new ArrayList<Cell>();
+		for( int i=0; i<players.size(); i++)
+			cells.add(players.get(i).currentCell);
+		String bestPath;
+		try {
+			bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10,grid);
+		} catch (NoPathException e) {
+			bestPath=null;
+		}
+		if(bestPath==null||bestPath=="")
+			return playerFailed;
 		else {
 			int i = monster.currentCell.getRow();
 			int j = monster.currentCell.getCol();
@@ -120,11 +132,24 @@ public class PacmanMap {
 			int newJ = newPos.getCol();
 
 			monster.currentCell = newPos;
+			if(grid[newI][newJ].occupant.getClass().getName() == "pacman.Player") {
+				for( int k=0; k<players.size(); k++) {
+					if(players.get(k).currentCell.equals(monster.currentCell)) {
+						playerFailed = players.get(k);
+					}
+						
+				}
+			}
 			grid[newI][newJ].occupant = monster;
+			return playerFailed;
 		}
 	}
 	
 	
+	public Cell[][] getGrid() {
+		return grid;
+	}
+
 	/*
 	 * Method to display a test graph
 	 */
@@ -133,10 +158,10 @@ public class PacmanMap {
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
-				mapMatrix[i][j] = cellOccupant.getRepresentation();
-				System.out.print(cellOccupant.getRepresentation());
+				mapMatrix[i][j] = cellOccupant.getIdentity();
+//				System.out.print(cellOccupant.getRepresentation());
 			}
-			System.out.println();
+//			System.out.println();
 		}
 		return mapMatrix;
 	}
