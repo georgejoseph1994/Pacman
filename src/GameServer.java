@@ -122,14 +122,17 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			
 
 			while (true) {
-				Thread.sleep(1000);
-
+				Thread.sleep(2000);
+				System.out.println("1");
             	if(playerCount==maxCount) {
+            		System.out.println("2");
 					for( int i=0; i<players.size(); i++) {
 						pacmanMap.movePlayer(players.get(i), hm.get(i+1));
 					}
 					Player playerFailed = pacmanMap.moveMonster(monster, players);
+					System.out.println(playerFailed+"*");
 					if(playerFailed!=null) {
+						System.out.println(playerFailed+"*");
 						int playerNumber = Character.getNumericValue(playerFailed.getRepresentation().charAt(2));
 						System.out.println(playerFailed.getRepresentation());
 						ClientRMIInterface failedClient = clients.get(playerNumber);

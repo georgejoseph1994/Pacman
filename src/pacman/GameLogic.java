@@ -2,6 +2,8 @@ package pacman;
 
 import java.util.ArrayList;
 
+import exception.NoPathException;
+
 public class GameLogic {
 	
 	
@@ -94,7 +96,7 @@ public class GameLogic {
 		return grid[i][j];
 	}
 
-	public static String getBestDirection(Cell source, ArrayList<Cell> cells, String path, int terminateSize, Cell[][] grid) {
+	public static String getBestDirection(Cell source, ArrayList<Cell> cells, String path, int terminateSize, Cell[][] grid) throws NoPathException {
 //		System.out.println("Current Path:" +path);
 		for( int i=0; i<cells.size() ; i++ ) {
 			//System.out.println(dest[i].getCol()+dest[i].getRow());
@@ -105,7 +107,7 @@ public class GameLogic {
 		}
 		if(path.length()>terminateSize) {
 //			System.out.println("Limit Path:"+path);
-			return null;
+			throw new NoPathException();
 		}
 		Cell lCell = new Cell(source.getRow(),source.getCol()-1);
 		Cell rCell = new Cell(source.getRow(),source.getCol()+1);
@@ -116,65 +118,61 @@ public class GameLogic {
 		if(isWall(grid[uCell.getRow()][uCell.getCol()])||circularPathMatch(path+"U")) {
 //			System.out.println("UWall Path:"+path);
 			uPath = null;
+			uLength = terminateSize+1;
 		}
 		else{
 			uPath=path+"U";
-			uPath = getBestDirection(uCell, cells, uPath, terminateSize,grid);
-//			if(uPath==null)
-//				path = removeLastChar(path);
+			try {
+				uPath = getBestDirection(uCell, cells, uPath, terminateSize,grid);
+				uLength = uPath.length();
+			} catch(NoPathException ex) {
+				uLength = terminateSize+1;
+			}
 		}
-		if(uPath==null){
-			uLength = terminateSize+1;
-		}
-		else
-			uLength = uPath.length();
 		if(isWall(grid[lCell.getRow()][lCell.getCol()])||circularPathMatch(path+"L")) {
 //			System.out.println("LWall Path:"+path);
 			lPath = null;
+			lLength = terminateSize+1;
 		}
 		else{
 			lPath=path+"L";
-			lPath = getBestDirection(lCell, cells, lPath, terminateSize,grid);
-//			if(lPath==null)
-//				path = removeLastChar(path);
+			try {
+				lPath = getBestDirection(lCell, cells, lPath, terminateSize,grid);
+				lLength = lPath.length();
+			} catch(NoPathException ex) {
+				lLength = terminateSize+1;
+			}
 		}
-		if(lPath==null){
-			lLength = terminateSize+1;
-		}
-		else
-			lLength = lPath.length();
 		if(isWall(grid[rCell.getRow()][rCell.getCol()])||circularPathMatch(path+"R")) {
 //			System.out.println("RWall Path:"+path);
 			rPath=null;
+			rLength = terminateSize+1;
 		}
 		else{
 			rPath=path+"R";
-			rPath =  getBestDirection(rCell, cells, rPath, terminateSize,grid);
-//			if(rPath==null)
-//				path = removeLastChar(path);
+			try {
+				rPath =  getBestDirection(rCell, cells, rPath, terminateSize,grid);
+				rLength = rPath.length();
+			} catch(NoPathException ex) {
+				rLength = terminateSize+1;
+			}
 		}
-		if(rPath==null) {
-			rLength = terminateSize+1;
-		}
-		else
-			rLength = rPath.length();
 		if(isWall(grid[dCell.getRow()][dCell.getCol()])||circularPathMatch(path+"D")){
 //			System.out.println("DWall Path:"+path);
 			dPath = null;
+			dLength = terminateSize+1;
 		}
 		else{
 			dPath=path+"D";
-			dPath = getBestDirection(dCell, cells, dPath, terminateSize,grid);
-//			if(dPath==null)
-//				path = removeLastChar(path);
+			try {
+				dPath = getBestDirection(dCell, cells, dPath, terminateSize,grid);
+				dLength = dPath.length();
+			} catch(NoPathException ex) {
+				dLength = terminateSize+1;
+			}
 		}
-		if(dPath==null){
-			dLength = terminateSize+1;
-		}
-		else
-			dLength = dPath.length();
 		if(rLength==terminateSize+1&&lLength==terminateSize+1&&uLength==terminateSize+1&&dLength==terminateSize+1)
-			return null;
+			throw new NoPathException();
 		if(rLength<lLength&&rLength<uLength&&rLength<dLength)
 			return rPath;
 		else if(lLength<uLength&&lLength<dLength)

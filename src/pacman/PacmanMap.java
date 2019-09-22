@@ -2,6 +2,8 @@ package pacman;
 
 import java.util.ArrayList;
 
+import exception.NoPathException;
+
 public class PacmanMap {
 
 	final static int PLAYER1 = 1;
@@ -110,7 +112,12 @@ public class PacmanMap {
 		ArrayList<Cell> cells = new ArrayList<Cell>();
 		for( int i=0; i<players.size(); i++)
 			cells.add(players.get(i).currentCell);
-		String bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10,grid);
+		String bestPath;
+		try {
+			bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10,grid);
+		} catch (NoPathException e) {
+			bestPath=null;
+		}
 		if(bestPath==null||bestPath=="")
 			return playerFailed;
 		else {
@@ -139,6 +146,10 @@ public class PacmanMap {
 	}
 	
 	
+	public Cell[][] getGrid() {
+		return grid;
+	}
+
 	/*
 	 * Method to display a test graph
 	 */
