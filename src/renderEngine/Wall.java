@@ -12,7 +12,7 @@ public class Wall extends Rectangle{
 	private static final long serialVersionUID = 1L;
 
 	public Wall(int x, int y) {
-		setBounds(x*32, y*32, 32, 32);
+		setBounds(y*32, x*32, 32, 32);
 	}
 	
 	public void render(Graphics g) {
