@@ -3,6 +3,8 @@ package pacman;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import exception.InvalidPlayerPositionException;
+
 public class Game {
 
 	public static void main(String args[]) throws InvalidPlayerPositionException {

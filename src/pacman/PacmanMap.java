@@ -3,6 +3,7 @@ package pacman;
 import java.util.ArrayList;
 
 import exception.IsWallException;
+import exception.InvalidPlayerPositionException;
 import exception.NoPathException;
 
 public class PacmanMap {
@@ -44,6 +45,7 @@ public class PacmanMap {
 		Wall wall = new Wall();
 		Path path = new Path();
 		
+//		Portal portal = new Portal(new Cell(10,0));
 		
 		// Creating a test map
 		for (int i = 0; i < 11; i++) {
@@ -57,6 +59,7 @@ public class PacmanMap {
 				}
 			}
 		}
+		testMap[5][0] = new Cell(5,0,new Portal(new Cell(10,0)));
 		this.grid = testMap;
 	}
 	
@@ -93,9 +96,13 @@ public class PacmanMap {
 			int i = player.currentCell.getRow();
 			int j = player.currentCell.getCol();
 			Path path = new Path();
+			Cell newPos;
 			
-			
-			Cell newPos = GameLogic.getNewPosition( player,  direction, grid);
+			try {
+				newPos = GameLogic.getNewPosition( player,  direction, grid);
+			}catch(InvalidPlayerPositionException e)  {
+				newPos = grid[i][j];
+			}
 			
 			int newI = newPos.getRow();
 			int newJ = newPos.getCol();
