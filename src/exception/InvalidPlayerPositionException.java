@@ -1,4 +1,4 @@
-package pacman;
+package exception;
 
 public class InvalidPlayerPositionException extends Exception{
 	

@@ -2,6 +2,7 @@ package pacman;
 
 import java.util.ArrayList;
 
+import exception.InvalidPlayerPositionException;
 import exception.NoPathException;
 
 public class GameLogic {
@@ -13,12 +14,12 @@ public class GameLogic {
 	 */
 	public static boolean isValidPlayerPossition(Cell cell) throws InvalidPlayerPositionException {
 		if(cell.getOccupant().getClass().getName() == "pacman.Wall" ) {
-			System.out.println("Row"+cell.getRow() + "col"+cell.getCol());
-			throw new InvalidPlayerPositionException("Player moved to a wadll");
+//			System.out.println("Row"+cell.getRow() + "col"+cell.getCol());
+			throw new InvalidPlayerPositionException("Player moved to a wall");
 		}else if(cell.getOccupant().getClass().getName() == "pacman.Player") {
 			throw new InvalidPlayerPositionException("Player moved to another players position");
 		}else if(cell.getOccupant().getClass().getName() == "pacman.Monster") {
-			throw new InvalidPlayerPositionException("Player moved to another monster position");
+			throw new InvalidPlayerPositionException("Player moved to monster position");
 		}
 		return true;
 	}
@@ -32,7 +33,7 @@ public class GameLogic {
 	/*
 	 * 
 	 */
-	public static Cell getNewPosition(Player player, String direction, Cell[][] grid) {
+	public static Cell getNewPosition(Player player, String direction, Cell[][] grid) throws InvalidPlayerPositionException {
 		
 		int i = player.currentCell.getRow();
 		int j = player.currentCell.getCol();
@@ -62,6 +63,7 @@ public class GameLogic {
 			}
 		}catch(InvalidPlayerPositionException e) {
 			System.out.println(e.getMessage());
+			throw e;
 		}
 		return grid[i][j];
 	}
