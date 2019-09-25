@@ -2,6 +2,7 @@ package pacman;
 
 import java.util.ArrayList;
 
+import exception.IsWallException;
 import exception.InvalidPlayerPositionException;
 import exception.NoPathException;
 
@@ -134,10 +135,15 @@ public class PacmanMap {
 			Path path = new Path();
 			grid[i][j].occupant = path;
 			
-			Cell newPos = GameLogic.getNewMonsterPosition( monster,  String.valueOf(bestPath.charAt(0)), grid);
+			Cell newPos;
+			try {
+				newPos = GameLogic.getNewMonsterPosition( monster,  String.valueOf(bestPath.charAt(0)), grid);
+			} catch (IsWallException e) {
+				newPos = monster.currentCell;
+			}
+
 			int newI = newPos.getRow();
 			int newJ = newPos.getCol();
-
 			monster.currentCell = newPos;
 			if(grid[newI][newJ].occupant.getClass().getName() == "pacman.Player") {
 				for( int k=0; k<players.size(); k++) {
