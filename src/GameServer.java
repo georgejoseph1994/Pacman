@@ -1,15 +1,11 @@
-
-import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Scanner;
 
 import pacman.Cell;
 import pacman.Monster;
@@ -21,19 +17,18 @@ import java.util.HashMap;
 public class GameServer extends UnicastRemoteObject implements ServerRMIInterface {
 
 	private static final long serialVersionUID = 1L;
-	public static Map< Integer,String> hm = new HashMap< Integer,String>();
-	public static Map< Integer, ClientRMIInterface> clients = new HashMap< Integer, ClientRMIInterface>();
-	public static PacmanMap pacmanMap;
-	public static Cell startingCell;
-	public static Player player;
-	public static Cell monsterCell;
-	public static Monster monster;
-	public static String userInput = "";
-	public static ArrayList<Player> players = new ArrayList<Player>();
-	private static int playerCount=0;
-	private static int maxCount=4;
-	private static GameServer lServer;
-	public static int[][] initialCellPos = {
+	public Map< Integer,String> hm = new HashMap< Integer,String>();
+	public Map< Integer, ClientRMIInterface> clients = new HashMap< Integer, ClientRMIInterface>();
+	public PacmanMap pacmanMap;
+	public Cell startingCell;
+	public Player player;
+	public Cell monsterCell;
+	public Monster monster;
+	public String userInput = "";
+	public ArrayList<Player> players = new ArrayList<Player>();
+	private int playerCount=0;
+	private int maxCount=4;
+	public int[][] initialCellPos = {
 			{1,1},
 			{9,9},
 			{1,9},
@@ -113,49 +108,49 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			/*
 			 * Initialising the pacman game objects
 			 */
-			pacmanMap = new PacmanMap();
-			pacmanMap.initialiseTestMap();
+			lServer.pacmanMap = new PacmanMap();
+			lServer.pacmanMap.initialiseTestMap();
 
-			monsterCell = pacmanMap.getCell(5, 5);
-			monster = new Monster(1, monsterCell);
-			pacmanMap.addMonster(monster);
+			lServer.monsterCell = lServer.pacmanMap.getCell(5, 5);
+			lServer.monster = new Monster(1, lServer.monsterCell);
+			lServer.pacmanMap.addMonster(lServer.monster);
 			
 
 			while (true) {
 				Thread.sleep(2000);
 				System.out.println("1");
-            	if(playerCount==maxCount) {
+            	if(lServer.playerCount==lServer.maxCount) {
             		System.out.println("2");
-					for( int i=0; i<players.size(); i++) {
-						pacmanMap.movePlayer(players.get(i), hm.get(i+1));
+					for( int i=0; i<lServer.players.size(); i++) {
+						lServer.pacmanMap.movePlayer(lServer.players.get(i), lServer.hm.get(i+1));
 					}
-					Player playerFailed = pacmanMap.moveMonster(monster, players);
+					Player playerFailed = lServer.pacmanMap.moveMonster(lServer.monster, lServer.players);
 					System.out.println(playerFailed+"*");
 					if(playerFailed!=null) {
 						System.out.println(playerFailed+"*");
 						int playerNumber = Character.getNumericValue(playerFailed.getRepresentation().charAt(2));
 						System.out.println(playerFailed.getRepresentation());
-						ClientRMIInterface failedClient = clients.get(playerNumber);
+						ClientRMIInterface failedClient = lServer.clients.get(playerNumber);
 						System.out.println("Player Failed "+playerFailed.getRepresentation().charAt(2) + " : " + failedClient);
 						try {
-							failedClient.mapChanged(pacmanMap.displayGrid());
+							failedClient.mapChanged(lServer.pacmanMap.displayGrid());
 							failedClient.playerFailed();
-							playerCount--;
-							maxCount--;
-							players.remove(players.indexOf(playerFailed));
-							clients.remove(playerNumber);
-							if(maxCount==1) {
-								Player playerWon = players.get(0);
+							lServer.playerCount--;
+							lServer.maxCount--;
+							lServer.players.remove(lServer.players.indexOf(playerFailed));
+							lServer.clients.remove(playerNumber);
+							if(lServer.maxCount==1) {
+								Player playerWon = lServer.players.get(0);
 								int wonPlayerNumber = Character.getNumericValue(playerWon.getRepresentation().charAt(2));
-								ClientRMIInterface wonClient = clients.get(wonPlayerNumber);
+								ClientRMIInterface wonClient = lServer.clients.get(wonPlayerNumber);
 
-								wonClient.mapChanged(pacmanMap.displayGrid());
+								wonClient.mapChanged(lServer.pacmanMap.displayGrid());
 								wonClient.playerWon();
 								wonClient.stopGame();
-								playerCount = -1;
+								lServer.playerCount = -1;
 							}
 						} catch (RemoteException aInE) {
-							clients.remove(playerNumber);
+							lServer.clients.remove(playerNumber);
 						}
 					}
 					lServer.notifyPlayers();
