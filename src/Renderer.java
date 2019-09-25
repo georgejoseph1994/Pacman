@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-import javax.swing.JFrame;
 
 import renderEngine.Monster;
 import renderEngine.Player;
@@ -115,11 +114,6 @@ public class Renderer extends Canvas implements Runnable {
 				timer+=1000;
 			}
 		}
-		
 		stop();
-		
 	}
-
-
-
 }

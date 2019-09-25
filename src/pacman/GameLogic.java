@@ -2,6 +2,8 @@ package pacman;
 
 import java.util.ArrayList;
 
+import exception.CircularPathException;
+import exception.IsWallException;
 import exception.NoPathException;
 
 public class GameLogic {
@@ -23,10 +25,9 @@ public class GameLogic {
 		return true;
 	}
 	
-	public static boolean isWall(Cell cell) {
+	public static void isWall(Cell cell) throws IsWallException {
 		if(cell.getOccupant().getClass().getName() == "pacman.Wall" )
-			return true;
-		return false;
+			throw new IsWallException();
 	}
 	
 	/*
@@ -66,47 +67,30 @@ public class GameLogic {
 		return grid[i][j];
 	}
 	
-	public static Cell getNewMonsterPosition(Monster monster, String direction, Cell[][] grid) {
+	public static Cell getNewMonsterPosition(Monster monster, String direction, Cell[][] grid) throws IsWallException {
 		
 		int i = monster.currentCell.getRow();
 		int j = monster.currentCell.getCol();
 		switch (direction){
-			case "U":{
-				if(!isWall(grid[i-1][j])) {
+			case "U":isWall(grid[i-1][j]);
 					return grid[i-1][j];
-				}
-				break;
-			}case "D":{
-				if(!isWall(grid[i+1][j])) {
+			case "D":isWall(grid[i+1][j]);
 					return grid[i+1][j];
-				}
-				break;
-			}case "L":{
-				if(!isWall(grid[i][j-1])) {
+			case "L":isWall(grid[i][j-1]);
 					return grid[i][j-1];
-				}
-				break;
-			}case "R":{
-				if(!isWall(grid[i][j+1])) {
+			case "R":isWall(grid[i][j+1]);
 					return grid[i][j+1];
-				}
-				break;
-			}
 		}
 		return grid[i][j];
 	}
 
 	public static String getBestDirection(Cell source, ArrayList<Cell> cells, String path, int terminateSize, Cell[][] grid) throws NoPathException {
-//		System.out.println("Current Path:" +path);
 		for( int i=0; i<cells.size() ; i++ ) {
-			//System.out.println(dest[i].getCol()+dest[i].getRow());
 			if(source.getCol()==cells.get(i).getCol()&&source.getRow()==cells.get(i).getRow()) {
-//				System.out.println("Path Found:"+path + " Row:" + dest[i].getRow()+ " Col:" + dest[i].getCol());
 				return path;
 			}
 		}
 		if(path.length()>terminateSize) {
-//			System.out.println("Limit Path:"+path);
 			throw new NoPathException();
 		}
 		Cell lCell = new Cell(source.getRow(),source.getCol()-1);
@@ -115,12 +99,9 @@ public class GameLogic {
 		Cell dCell = new Cell(source.getRow()+1,source.getCol());
 		String lPath, rPath, uPath, dPath;
 		int lLength, rLength, uLength, dLength;
-		if(isWall(grid[uCell.getRow()][uCell.getCol()])||circularPathMatch(path+"U")) {
-//			System.out.println("UWall Path:"+path);
-			uPath = null;
-			uLength = terminateSize+1;
-		}
-		else{
+		try {
+			circularPathMatch(path+"U");
+			isWall(grid[uCell.getRow()][uCell.getCol()]);
 			uPath=path+"U";
 			try {
 				uPath = getBestDirection(uCell, cells, uPath, terminateSize,grid);
@@ -128,13 +109,13 @@ public class GameLogic {
 			} catch(NoPathException ex) {
 				uLength = terminateSize+1;
 			}
+		} catch(CircularPathException | IsWallException ex) {
+			uPath = null;
+			uLength = terminateSize+1;
 		}
-		if(isWall(grid[lCell.getRow()][lCell.getCol()])||circularPathMatch(path+"L")) {
-//			System.out.println("LWall Path:"+path);
-			lPath = null;
-			lLength = terminateSize+1;
-		}
-		else{
+		try {
+			circularPathMatch(path+"L");
+			isWall(grid[lCell.getRow()][lCell.getCol()]);
 			lPath=path+"L";
 			try {
 				lPath = getBestDirection(lCell, cells, lPath, terminateSize,grid);
@@ -142,13 +123,13 @@ public class GameLogic {
 			} catch(NoPathException ex) {
 				lLength = terminateSize+1;
 			}
+		} catch(CircularPathException | IsWallException ex) {
+			lPath = null;
+			lLength = terminateSize+1;
 		}
-		if(isWall(grid[rCell.getRow()][rCell.getCol()])||circularPathMatch(path+"R")) {
-//			System.out.println("RWall Path:"+path);
-			rPath=null;
-			rLength = terminateSize+1;
-		}
-		else{
+		try {
+			circularPathMatch(path+"R");
+			isWall(grid[rCell.getRow()][rCell.getCol()]);
 			rPath=path+"R";
 			try {
 				rPath =  getBestDirection(rCell, cells, rPath, terminateSize,grid);
@@ -156,13 +137,13 @@ public class GameLogic {
 			} catch(NoPathException ex) {
 				rLength = terminateSize+1;
 			}
+		} catch(CircularPathException | IsWallException ex) {
+			rPath=null;
+			rLength = terminateSize+1;
 		}
-		if(isWall(grid[dCell.getRow()][dCell.getCol()])||circularPathMatch(path+"D")){
-//			System.out.println("DWall Path:"+path);
-			dPath = null;
-			dLength = terminateSize+1;
-		}
-		else{
+		try {
+			circularPathMatch(path+"D");
+			isWall(grid[dCell.getRow()][dCell.getCol()]);
 			dPath=path+"D";
 			try {
 				dPath = getBestDirection(dCell, cells, dPath, terminateSize,grid);
@@ -170,6 +151,9 @@ public class GameLogic {
 			} catch(NoPathException ex) {
 				dLength = terminateSize+1;
 			}
+		} catch(CircularPathException | IsWallException ex) {
+			dPath = null;
+			dLength = terminateSize+1;
 		}
 		if(rLength==terminateSize+1&&lLength==terminateSize+1&&uLength==terminateSize+1&&dLength==terminateSize+1)
 			throw new NoPathException();
@@ -200,10 +184,10 @@ public class GameLogic {
 		return false;
 	}
 	
-	public static boolean circularPathMatch(String path) {
+	public static void circularPathMatch(String path) throws CircularPathException {
 		if(path.length()>2) {
 			if(checkOpposite(path.charAt(path.length()-2), path.charAt(path.length()-1))) {
-				return true;
+				throw new CircularPathException();
 			}
 		}
 		int colChange=0, rowChange = 0; 
@@ -218,9 +202,7 @@ public class GameLogic {
 				rowChange++;
 		}
 		if(colChange==0&&rowChange==0) {
-			//System.out.println("Circular Path:"+path);
-			return true;
+			throw new CircularPathException();
 		}
-		return false;
 	}
 }
