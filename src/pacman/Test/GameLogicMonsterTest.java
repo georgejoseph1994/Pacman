@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import exception.InvalidPlayerPositionException;
+import exception.IsWallException;
 import pacman.Cell;
 import pacman.GameLogic;
 import pacman.Monster;
@@ -48,7 +49,7 @@ public class GameLogicMonsterTest {
 	}
 
 	@Test
-	public void getNewMonsterPosition_LegalUpMovement_True() throws InvalidPlayerPositionException {
+	public void getNewMonsterPosition_LegalUpMovement_True() throws InvalidPlayerPositionException, IsWallException {
 		monsterCell = map.getCell(2, 1);
 		monster = new Monster(1,monsterCell);
 		map.addMonster(monster);
@@ -59,7 +60,7 @@ public class GameLogicMonsterTest {
 	}
 	
 	@Test
-	public void getNewMonsterPosition_LegalDownMovement_True() throws InvalidPlayerPositionException {
+	public void getNewMonsterPosition_LegalDownMovement_True() throws InvalidPlayerPositionException, IsWallException {
 		monsterCell = map.getCell(1, 1);
 		monster = new Monster(1,monsterCell);
 		map.addMonster(monster);
@@ -70,7 +71,7 @@ public class GameLogicMonsterTest {
 	}
 	
 	@Test
-	public void getNewMonsterPosition_LegalRightMovement_True() throws InvalidPlayerPositionException {
+	public void getNewMonsterPosition_LegalRightMovement_True() throws InvalidPlayerPositionException, IsWallException {
 		monsterCell = map.getCell(1, 1);
 		monster = new Monster(1,monsterCell);
 		map.addMonster(monster);
@@ -81,7 +82,7 @@ public class GameLogicMonsterTest {
 	}
 	
 	@Test
-	public void getNewMonsterPosition_LegalLeftMovement_Exception() throws InvalidPlayerPositionException {
+	public void getNewMonsterPosition_LegalLeftMovement_Exception() throws InvalidPlayerPositionException, IsWallException {
 		monsterCell = map.getCell(1,2);
 		monster = new Monster(1,monsterCell);
 		map.addMonster(monster);
@@ -91,8 +92,8 @@ public class GameLogicMonsterTest {
 		assertEquals(1, newPos.getRow());
 	}
 	
-	@Test
-	public void getNewMonsterPosition_IllegalWallMovement_Exception() throws InvalidPlayerPositionException {
+	@Test(expected = IsWallException.class)
+	public void getNewMonsterPosition_IllegalWallMovement_Exception() throws InvalidPlayerPositionException, IsWallException {
 		monsterCell = map.getCell(1,1);
 		monster = new Monster(1,monsterCell);
 		map.addMonster(monster);
