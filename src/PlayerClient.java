@@ -32,7 +32,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
             //Lookup for the service
 //        	System.out.println("Enter server IP: ");
 //            String url = "rmi://" + input.next() + ":52369/Hello";
-        	String url = "rmi://" + "192.168.1.9" + ":52369/Hello";
+        	String url = "rmi://" + "192.168.56.1" + ":52369/Hello";
             Remote lRemote = Naming.lookup(url);
             lRemoteServer = (ServerRMIInterface) lRemote;
             
