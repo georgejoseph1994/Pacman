@@ -59,7 +59,10 @@ public class PacmanMap {
 				}
 			}
 		}
-		testMap[5][0] = new Cell(5,0,new Portal(new Cell(10,0)));
+		testMap[5][0] = new Cell(5,0,new Portal(new Cell(5,9)));
+		testMap[5][10] = new Cell(5,10,new Portal(new Cell(5,1)));
+		testMap[0][5] = new Cell(0,5,new Portal(new Cell(9,5)));
+		testMap[10][5] = new Cell(10,5,new Portal(new Cell(1,5)));
 		this.grid = testMap;
 	}
 	
@@ -68,7 +71,7 @@ public class PacmanMap {
 		int i = movableOccupant.currentCell.getRow();
 		int j = movableOccupant.currentCell.getCol();
 
-		if(GameLogic.isValidPlayerPossition(movableOccupant.currentCell)) {
+		if(GameLogic.isValidPlayerPosition(movableOccupant.currentCell)) {
 			this.grid[i][j].setOccupant(movableOccupant);
 		}
 	}
@@ -77,7 +80,7 @@ public class PacmanMap {
 		int i = player.currentCell.getRow();
 		int j = player.currentCell.getCol();
 		
-		if(GameLogic.isValidPlayerPossition(player.currentCell)) {
+		if(GameLogic.isValidPlayerPosition(player.currentCell)) {
 			this.grid[i][j].setOccupant(player);
 		}
 	}
@@ -86,7 +89,7 @@ public class PacmanMap {
 		int i = monster.currentCell.getRow();
 		int j = monster.currentCell.getCol();
 		
-		if(GameLogic.isValidPlayerPossition(monster.currentCell)) {
+		if(GameLogic.isValidPlayerPosition(monster.currentCell)) {
 			this.grid[i][j].setOccupant(monster);
 		}
 	}
@@ -172,9 +175,9 @@ public class PacmanMap {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
 				mapMatrix[i][j] = cellOccupant.getIdentity();
-//				System.out.print(cellOccupant.getRepresentation());
+				System.out.print(cellOccupant.getRepresentation());
 			}
-//			System.out.println();
+			System.out.println();
 		}
 		return mapMatrix;
 	}
