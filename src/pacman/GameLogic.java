@@ -14,7 +14,7 @@ public class GameLogic {
 	 * Returns the validity of a players position
 	 * @params cell
 	 */
-	public static boolean isValidPlayerPossition(Cell cell) throws InvalidPlayerPositionException {
+	public static boolean isValidPlayerPosition(Cell cell) throws InvalidPlayerPositionException {
 		if(cell.getOccupant().getClass().getName() == "pacman.Wall" ) {
 //			System.out.println("Row"+cell.getRow() + "col"+cell.getCol());
 			throw new InvalidPlayerPositionException("Player moved to a wall");
@@ -41,22 +41,34 @@ public class GameLogic {
 		try {
 			switch (direction){
 				case "U":{
-					if(isValidPlayerPossition(grid[i-1][j])) {
+					if(grid[i-1][j].getClass().getName() == "pacman.Portal") {
+						return ((Portal) grid[i-1][j].getOccupant()).getTarget();
+					}
+					if(isValidPlayerPosition(grid[i-1][j])) {
 						return grid[i-1][j];
 					}
 					break;
 				}case "D":{
-					if(isValidPlayerPossition(grid[i+1][j])) {
+					if(grid[i+1][j].getClass().getName() == "pacman.Portal") {
+						return ((Portal) grid[i+1][j].getOccupant()).getTarget();
+					}
+					if(isValidPlayerPosition(grid[i+1][j])) {
 						return grid[i+1][j];
 					}
 					break;
 				}case "L":{
-					if(isValidPlayerPossition(grid[i][j-1])) {
+					if(grid[i][j-1].getClass().getName() == "pacman.Portal") {
+						return ((Portal) grid[i][j-1].getOccupant()).getTarget();
+					}
+					if(isValidPlayerPosition(grid[i][j-1])) {
 						return grid[i][j-1];
 					}
 					break;
 				}case "R":{
-					if(isValidPlayerPossition(grid[i][j+1])) {
+					if(grid[i][j+1].getClass().getName() == "pacman.Portal") {
+						return ((Portal) grid[i][j+1].getOccupant()).getTarget();
+					}
+					if(isValidPlayerPosition(grid[i][j+1])) {
 						return grid[i][j+1];
 					}
 					break;
