@@ -1,7 +1,9 @@
 package pacman.Test;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import exception.CircularPathException;
 import exception.IsWallException;
 import exception.NoPathException;
 import pacman.Cell;
@@ -143,10 +146,17 @@ public class PacmanTest {
 		map.addMonster(monster);
 		cells.add(player2.getCurrentCell());
 		cells.add(player1.getCurrentCell());
-		
+
 		String path = GameLogic.getBestDirection(monster.getCurrentCell() , cells, "", 10, map.getGrid());
         List<Character> expected = Arrays.asList('U','R');
 		assertThat(expected, hasItems(path.charAt(0)));
+	}
+	
+
+	@Test (expected=CircularPathException.class)
+	public void testCheckCircularPath() throws Exception {
+		
+		GameLogic.circularPathMatch("LUDR");
 	}
 
 	@Test (expected=IsWallException.class)

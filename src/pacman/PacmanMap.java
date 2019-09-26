@@ -19,7 +19,7 @@ public class PacmanMap {
 	final static int WALL = 7;
 	final static int PATH = 8;
 
-	Cell grid[][];
+	protected Cell grid[][];
 
 	public PacmanMap() {
 
@@ -172,9 +172,9 @@ public class PacmanMap {
 			for (int j = 0; j < 11; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
 				mapMatrix[i][j] = cellOccupant.getIdentity();
-//				System.out.print(cellOccupant.getRepresentation());
+				System.out.print(cellOccupant.getRepresentation());
 			}
-//			System.out.println();
+			System.out.println();
 		}
 		return mapMatrix;
 	}

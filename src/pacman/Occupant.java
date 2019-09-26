@@ -1,8 +1,8 @@
 package pacman;
 
 public class Occupant {
-	String representation;
-	String identity;
+	protected String representation;
+	protected String identity;
 	
 	public String getRepresentation() {
 		return this.representation;
