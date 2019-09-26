@@ -126,6 +126,47 @@ public class GameLogicPlayerTest {
 		
 		Cell newPos = GameLogic.getNewPosition(player1, "R", map.getGrid());
 	}
+	@Test
+	public void GetNewPosition_LegalLeftPortalMovement_True() throws InvalidPlayerPositionException {
+		startingCell = map.getCell(5, 1);
+		player1 = new Player(1,startingCell);
+		map.addPlayer(player1);
+		Cell newPos = GameLogic.getNewPosition(player1, "L", map.getGrid());
+		
+		assertEquals(10, newPos.getCol());
+		assertEquals(5, newPos.getRow());
+	}
 	
+	@Test
+	public void GetNewPosition_LegalRightPortalMovement_True() throws InvalidPlayerPositionException {
+		startingCell = map.getCell(5, 9);
+		player1 = new Player(1,startingCell);
+		map.addPlayer(player1);
+		Cell newPos = GameLogic.getNewPosition(player1, "R", map.getGrid());
+		
+		assertEquals(1, newPos.getCol());
+		assertEquals(5, newPos.getRow());
+	}
 	
+	@Test
+	public void GetNewPosition_LegalUpPortalMovement_True() throws InvalidPlayerPositionException {
+		startingCell = map.getCell(1, 5);
+		player1 = new Player(1,startingCell);
+		map.addPlayer(player1);
+		Cell newPos = GameLogic.getNewPosition(player1, "U", map.getGrid());
+		
+		assertEquals(5, newPos.getCol());
+		assertEquals(10, newPos.getRow());
+	}
+	
+	@Test
+	public void GetNewPosition_LegalDownPortalMovement_True() throws InvalidPlayerPositionException {
+		startingCell = map.getCell(9, 5);
+		player1 = new Player(1,startingCell);
+		map.addPlayer(player1);
+		Cell newPos = GameLogic.getNewPosition(player1, "U", map.getGrid());
+		
+		assertEquals(5, newPos.getCol());
+		assertEquals(1, newPos.getRow());
+	}
 }

@@ -101,5 +101,44 @@ public class GameLogicMonsterTest {
 		assertEquals(1, newPos.getCol());
 		assertEquals(1, newPos.getRow());
 	}
-
+	
+	@Test
+	public void GetNewMonsterPosition_LegalLeftPortalMovement_True() throws IsWallException, InvalidPlayerPositionException {
+		monsterCell = map.getCell(5,1);
+		monster = new Monster(1,monsterCell);
+		map.addMonster(monster);
+		Cell newPos = GameLogic.getNewMonsterPosition(monster, "L", map.getGrid());
+		assertEquals(10, newPos.getCol());
+		assertEquals(5, newPos.getRow());
+	}
+	
+	@Test
+	public void GetNewMonsterPosition_LegalRightPortalMovement_True() throws InvalidPlayerPositionException, IsWallException {
+		monsterCell = map.getCell(5,10);
+		monster = new Monster(1,monsterCell);
+		map.addMonster(monster);
+		Cell newPos = GameLogic.getNewMonsterPosition(monster, "L", map.getGrid());
+		assertEquals(5, newPos.getCol());
+		assertEquals(1, newPos.getRow());
+	}
+	
+	@Test
+	public void GetNewPosition_LegalUpPortalMovement_True() throws InvalidPlayerPositionException, IsWallException {
+		monsterCell = map.getCell(1,5);
+		monster = new Monster(1,monsterCell);
+		map.addMonster(monster);
+		Cell newPos = GameLogic.getNewMonsterPosition(monster, "L", map.getGrid());
+		assertEquals(5, newPos.getCol());
+		assertEquals(10, newPos.getRow());
+	}
+	
+	@Test
+	public void GetNewPosition_LegalDownPortalMovement_True() throws InvalidPlayerPositionException, IsWallException {
+		monsterCell = map.getCell(5,10);
+		monster = new Monster(1,monsterCell);
+		map.addMonster(monster);
+		Cell newPos = GameLogic.getNewMonsterPosition(monster, "L", map.getGrid());
+		assertEquals(5, newPos.getCol());
+		assertEquals(1, newPos.getRow());
+	}
 }

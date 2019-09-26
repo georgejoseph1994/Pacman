@@ -8,4 +8,11 @@ public class Portal extends Occupant{
 		
 		identity = "0";
 	}
+	public Cell getTarget() {
+		return target;
+	}
+	public void setTarget(Cell target) {
+		this.target = target;
+	}
+	
 }
