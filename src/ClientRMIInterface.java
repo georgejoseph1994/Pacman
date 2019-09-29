@@ -10,4 +10,5 @@ public interface ClientRMIInterface extends Remote
     void stopGame() throws RemoteException;
 	void playerFailed() throws RemoteException;
 	void playerWon() throws RemoteException;
+	void getStartCorner() throws RemoteException;
 }

@@ -32,7 +32,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
             //Lookup for the service
 //        	System.out.println("Enter server IP: ");
 //            String url = "rmi://" + input.next() + ":52369/Hello";
-        	String url = "rmi://" + "192.168.1.9" + ":52369/Hello";
+        	String url = "rmi://" + "192.168.99.1" + ":52369/Hello";
             Remote lRemote = Naming.lookup(url);
             lRemoteServer = (ServerRMIInterface) lRemote;
             
@@ -124,17 +124,31 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 		}
     }
 	
-	public void getGameDetails() {
+	public void getGameDetails() throws RemoteException{
     	 try
          {
 	    	System.out.println("Enter the number of players : ");
 	    	int n = input.nextInt();
+	    	input.nextLine();
 	    	lRemoteServer.setMaxCount(n);
          }
          catch (Exception aInE)
          {
              System.out.println(aInE);
          }
+	 }
+	
+	public void getStartCorner() throws RemoteException{
+   	 try
+        {
+	    	System.out.println("Enter the start location : ");
+	    	String startLoc = input.nextLine();
+	    	lRemoteServer.setStartCorner(playerName, startLoc);
+        }
+        catch (Exception aInE)
+        {
+            System.out.println(aInE);
+        }
 	 }
 
 	@Override
