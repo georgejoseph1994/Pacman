@@ -34,7 +34,8 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			{1,9},
 			{9,1}
 	}; 
-
+	public Map<Integer,String> playerStartLocation = new HashMap<Integer, String>();
+	
 	protected GameServer() throws RemoteException {
 	}
 
@@ -66,12 +67,19 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			pacmanMap.addPlayer(player);
 			playerCount++;
 			if (playerCount==1) {
-				System.out.println(playerCount);
+//				System.out.println(playerCount);
 				System.out.println("Host Player has joined");
 				client.getGameDetails();
 			}
 			else {
 				System.out.println("Another player has joined");
+			}
+			System.out.println("Player asked for start corner");
+			client.getStartCorner();
+			
+			System.out.println("Locations");
+			for (int key : playerStartLocation.keySet()) {
+			    System.out.println(key + "   " + playerStartLocation.get(key));
 			}
 			if(playerCount==maxCount) {
 				for (ClientRMIInterface sclient : clients.values())
@@ -88,6 +96,12 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 		System.out.println(maxCount);
 		maxCount=n;
 		System.out.println(maxCount);
+	}
+	
+	public void setStartCorner(int name, String location) throws RemoteException {
+		
+		playerStartLocation.put(name, location);
+		//check if location already in use and if not call it again
 	}
 
 	@Override
@@ -118,9 +132,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 			while (true) {
 				Thread.sleep(2000);
-				System.out.println("1");
             	if(lServer.playerCount==lServer.maxCount) {
-            		System.out.println("2");
 					for( int i=0; i<lServer.players.size(); i++) {
 						lServer.pacmanMap.movePlayer(lServer.players.get(i), lServer.hm.get(i+1));
 					}

@@ -124,17 +124,31 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 		}
     }
 	
-	public void getGameDetails() {
+	public void getGameDetails() throws RemoteException{
     	 try
          {
 	    	System.out.println("Enter the number of players : ");
 	    	int n = input.nextInt();
+	    	input.nextLine();
 	    	lRemoteServer.setMaxCount(n);
          }
          catch (Exception aInE)
          {
              System.out.println(aInE);
          }
+	 }
+	
+	public void getStartCorner() throws RemoteException{
+   	 try
+        {
+	    	System.out.println("Enter the start location : ");
+	    	String startLoc = input.nextLine();
+	    	lRemoteServer.setStartCorner(playerName, startLoc);
+        }
+        catch (Exception aInE)
+        {
+            System.out.println(aInE);
+        }
 	 }
 
 	@Override
