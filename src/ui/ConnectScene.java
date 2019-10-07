@@ -16,6 +16,8 @@ public class ConnectScene extends GameScene{
 	
 	ConnectScene(Stage stage) {
 		super(stage);
+    	GameScene chooseMapScene = new ChooseMapScene(stage);
+    	
 		HBox hbox = this.generateHeaderHBox();
 		//creating label IP 
         Text text1 = new Text("Server IP");       
@@ -32,6 +34,7 @@ public class ConnectScene extends GameScene{
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Connect attempt with IP: " + textField1.getText());
+                rootStage.setScene(chooseMapScene.scene);
                 // Write code here to actually send the IP to server
                 // and call the next stage on successful connection
             }
