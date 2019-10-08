@@ -21,22 +21,22 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ApplicationWindow  extends Application {
-	 public static void main(String[] args) {
-	        launch(args);
-	    }
-	    
-	    @Override
-	    public void start(Stage stage) {
-	    	GameScene connectScene = new ConnectScene(stage);
-	        
-	        //Setting title to the Stage 
-	        stage.setTitle("Pacman - The Game"); 
-	           
-	        //Adding scene to the stage 
-	        stage.setScene(connectScene.scene); 
-	           
-	        //Displaying the contents of the stage 
-	        stage.show();
-	    }
+ 	public static void launchWindow(String[] args) {
+        launch(args);
+    }
+    
+    @Override
+    public void start(Stage stage) {
+    	GameScene connectScene = new ConnectScene(stage);
+        
+        //Setting title to the Stage 
+        stage.setTitle("Pacman - The Game"); 
+           
+        //Adding scene to the stage 
+        stage.setScene(connectScene.scene); 
+           
+        //Displaying the contents of the stage 
+        stage.show();
+    }
 		
 }

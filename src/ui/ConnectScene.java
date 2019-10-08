@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.PlayerClient;
 
 public class ConnectScene extends GameScene{
 	
@@ -22,7 +23,9 @@ public class ConnectScene extends GameScene{
         
   	  
         //Creating Text Filed for IP        
-        TextField textField1 = new TextField();       
+        TextField textField1 = new TextField();
+
+        Text errormsg = new Text("");  
           
          
         //Creating Button
@@ -32,6 +35,9 @@ public class ConnectScene extends GameScene{
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Connect attempt with IP: " + textField1.getText());
+                if(!PlayerClient.connectServer(textField1.getText())) {
+                	System.out.println("Connection Refused");
+                }
                 // Write code here to actually send the IP to server
                 // and call the next stage on successful connection
             }
@@ -55,6 +61,7 @@ public class ConnectScene extends GameScene{
         //Arranging all the nodes in the grid 
         gridPane.add(hbox, 0, 0, 2, 1);
         gridPane.add(text1, 0, 1); 
+        gridPane.add(errormsg, 2, 1); 
         gridPane.add(textField1, 1, 1); 
         gridPane.add(button1, 1, 5); 
         
