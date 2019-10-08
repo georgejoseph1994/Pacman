@@ -1,3 +1,4 @@
+
 package ui;
 
 import javafx.event.ActionEvent;
@@ -38,6 +39,7 @@ public class ConnectScene extends GameScene{
                 if(!PlayerClient.connectServer(textField1.getText())) {
                 	System.out.println("Connection Refused");
                 }
+                rootStage.setScene(chooseMapScene.scene);
                 // Write code here to actually send the IP to server
                 // and call the next stage on successful connection
             }
