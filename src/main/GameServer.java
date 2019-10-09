@@ -1,3 +1,4 @@
+package main;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -73,9 +74,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			}
 			else {
 				System.out.println("Another player has joined");
+				System.out.println("Player asked for start corner");
+				client.getStartCorner();
 			}
-			System.out.println("Player asked for start corner");
-			client.getStartCorner();
 			
 			System.out.println("Locations");
 			for (int key : playerStartLocation.keySet()) {
@@ -92,10 +93,13 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 		}
 	}
 	
-	public void setMaxCount(int n) throws RemoteException {
+	public void setMaxCount(ClientRMIInterface client, int n) throws RemoteException {
 		System.out.println(maxCount);
 		maxCount=n;
 		System.out.println(maxCount);
+		
+		System.out.println("Player asked for start corner");
+		client.getStartCorner();
 	}
 	
 	public void setStartCorner(int name, String location) throws RemoteException {

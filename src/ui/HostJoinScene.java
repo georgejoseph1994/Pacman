@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.PlayerClient;
 
 public class HostJoinScene extends GameScene{
 	public HostJoinScene(Stage stage) {
@@ -27,9 +28,7 @@ public class HostJoinScene extends GameScene{
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("2 players selected");
-				rootStage.setScene(chooseStartingScene.scene);
-				// Write code here to actually send the IP to server
-				// and call the next stage on successful connection
+				PlayerClient.setMaxCount(2);
 			}
 		});
 		//Creating Button
@@ -40,9 +39,7 @@ public class HostJoinScene extends GameScene{
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("3 players selected");
-				rootStage.setScene(chooseStartingScene.scene);
-				// Write code here to actually send the IP to server
-				// and call the next stage on successful connection
+				PlayerClient.setMaxCount(3);
 			}
 		});
 		//Creating Button
@@ -53,9 +50,7 @@ public class HostJoinScene extends GameScene{
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("4 players selected");
-				rootStage.setScene(chooseStartingScene.scene);
-				// Write code here to actually send the IP to server
-				// and call the next stage on successful connection
+				PlayerClient.setMaxCount(4);
 			}
 		});
 
