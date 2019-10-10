@@ -41,7 +41,7 @@ public class GameLogic {
 		try {
 			switch (direction){
 				case "U":{
-					if(grid[i-1][j].getClass().getName() == "pacman.Portal") {
+					if(grid[i-1][j].getOccupant().getClass().getName() == "pacman.Portal") {
 						return ((Portal) grid[i-1][j].getOccupant()).getTarget();
 					}
 					if(isValidPlayerPosition(grid[i-1][j])) {
@@ -49,7 +49,7 @@ public class GameLogic {
 					}
 					break;
 				}case "D":{
-					if(grid[i+1][j].getClass().getName() == "pacman.Portal") {
+					if(grid[i+1][j].getOccupant().getClass().getName() == "pacman.Portal") {
 						return ((Portal) grid[i+1][j].getOccupant()).getTarget();
 					}
 					if(isValidPlayerPosition(grid[i+1][j])) {
@@ -57,7 +57,7 @@ public class GameLogic {
 					}
 					break;
 				}case "L":{
-					if(grid[i][j-1].getClass().getName() == "pacman.Portal") {
+					if(grid[i][j-1].getOccupant().getClass().getName() == "pacman.Portal") {
 						return ((Portal) grid[i][j-1].getOccupant()).getTarget();
 					}
 					if(isValidPlayerPosition(grid[i][j-1])) {
@@ -65,7 +65,7 @@ public class GameLogic {
 					}
 					break;
 				}case "R":{
-					if(grid[i][j+1].getClass().getName() == "pacman.Portal") {
+					if(grid[i][j+1].getOccupant().getClass().getName() == "pacman.Portal") {
 						return ((Portal) grid[i][j+1].getOccupant()).getTarget();
 					}
 					if(isValidPlayerPosition(grid[i][j+1])) {
@@ -86,14 +86,34 @@ public class GameLogic {
 		int i = monster.currentCell.getRow();
 		int j = monster.currentCell.getCol();
 		switch (direction){
-			case "U":isWall(grid[i-1][j]);
-					return grid[i-1][j];
-			case "D":isWall(grid[i+1][j]);
-					return grid[i+1][j];
-			case "L":isWall(grid[i][j-1]);
-					return grid[i][j-1];
-			case "R":isWall(grid[i][j+1]);
-					return grid[i][j+1];
+			case "U":{
+						if(grid[i-1][j].getOccupant().getClass().getName() == "pacman.Portal") {
+							return ((Portal) grid[i-1][j].getOccupant()).getTarget();
+						}
+						isWall(grid[i-1][j]);
+						return grid[i-1][j];
+					}
+			case "D":{
+						if(grid[i+1][j].getOccupant().getClass().getName() == "pacman.Portal") {
+							return ((Portal) grid[i+1][j].getOccupant()).getTarget();
+						}
+						isWall(grid[i+1][j]);
+						return grid[i+1][j];
+					}
+			case "L":{
+						if(grid[i][j-1].getOccupant().getClass().getName() == "pacman.Portal") {
+							return ((Portal) grid[i][j-1].getOccupant()).getTarget();
+						}
+						isWall(grid[i][j-1]);
+						return grid[i][j-1];
+					}
+			case "R":{
+						if(grid[i][j+1].getOccupant().getClass().getName() == "pacman.Portal") {
+							return ((Portal) grid[i][j+1].getOccupant()).getTarget();
+						}
+						isWall(grid[i][j+1]);
+						return grid[i][j+1];
+					}
 		}
 		return grid[i][j];
 	}
@@ -111,6 +131,23 @@ public class GameLogic {
 		Cell rCell = new Cell(source.getRow(),source.getCol()+1);
 		Cell uCell = new Cell(source.getRow()-1,source.getCol());
 		Cell dCell = new Cell(source.getRow()+1,source.getCol());
+		
+		/*
+		 * Handling movement of monster to portal
+		 */
+		if(grid[source.getRow()][source.getCol()-1].getOccupant().getClass().getName() == "pacman.Portal") {
+			lCell = ((Portal)grid[source.getRow()][source.getCol()-1].getOccupant()).getTarget();
+		}
+		if(grid[source.getRow()][source.getCol()+1].getOccupant().getClass().getName() == "pacman.Portal") {
+			rCell = ((Portal)grid[source.getRow()][source.getCol()+1].getOccupant()).getTarget();
+		}
+		if(grid[source.getRow()-1][source.getCol()].getOccupant().getClass().getName() == "pacman.Portal") {
+			uCell = ((Portal)grid[source.getRow()-1][source.getCol()].getOccupant()).getTarget();
+		}
+		if(grid[source.getRow()+1][source.getCol()].getOccupant().getClass().getName() == "pacman.Portal") {
+			dCell = ((Portal)grid[source.getRow()+1][source.getCol()].getOccupant()).getTarget();
+		}
+		
 		String lPath, rPath, uPath, dPath;
 		int lLength, rLength, uLength, dLength;
 		try {
