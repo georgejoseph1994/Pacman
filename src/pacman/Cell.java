@@ -2,9 +2,9 @@ package pacman;
 
 public class Cell {
 
-	int row;
-	int col;
-	Occupant occupant;
+	protected int row;
+	protected int col;
+	protected Occupant occupant;
 
 	public Cell(int row, int col, Occupant occupant) {
 		this.row = row;
@@ -19,9 +19,7 @@ public class Cell {
 	}
 
 	public Occupant getOccupant() {
-
 		return this.occupant;
-
 	}
 
 	public int getRow() {

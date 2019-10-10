@@ -1,6 +1,6 @@
+package main;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Map;
 
 public interface ClientRMIInterface extends Remote
 {
@@ -10,4 +10,5 @@ public interface ClientRMIInterface extends Remote
     void stopGame() throws RemoteException;
 	void playerFailed() throws RemoteException;
 	void playerWon() throws RemoteException;
+	void getStartCorner() throws RemoteException;
 }

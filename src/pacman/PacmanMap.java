@@ -19,7 +19,7 @@ public class PacmanMap {
 	final static int WALL = 7;
 	final static int PATH = 8;
 
-	Cell grid[][];
+	protected Cell grid[][];
 
 	public PacmanMap() {
 
@@ -59,10 +59,10 @@ public class PacmanMap {
 				}
 			}
 		}
-		testMap[5][0] = new Cell(5,0,new Portal(new Cell(5,9)));
-		testMap[5][10] = new Cell(5,10,new Portal(new Cell(5,1)));
-		testMap[0][5] = new Cell(0,5,new Portal(new Cell(9,5)));
-		testMap[10][5] = new Cell(10,5,new Portal(new Cell(1,5)));
+//		testMap[5][0] = new Cell(5,0,new Portal(new Cell(5,9)));
+//		testMap[5][10] = new Cell(5,10,new Portal(new Cell(5,1)));
+//		testMap[0][5] = new Cell(0,5,new Portal(new Cell(9,5)));
+//		testMap[10][5] = new Cell(10,5,new Portal(new Cell(1,5)));
 		this.grid = testMap;
 	}
 	
