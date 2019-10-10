@@ -48,28 +48,28 @@ public class ChooseMapScene extends GameScene{
 			}
 		});
 
-		//Creating a Grid Pane 
-		GridPane gridPane = new GridPane();    
+		//Creating a Grid Pane
+		GridPane gridPane = new GridPane();
 
-		//Setting size for the pane  
-		gridPane.setMinSize(400, 200); 
+		//Setting size for the pane
+		gridPane.setMinSize(400, 200);
 
-		//Setting the padding  
-		gridPane.setPadding(new Insets(10, 10, 10, 10)); 
+		//Setting the padding
+		gridPane.setPadding(new Insets(10, 10, 10, 10));
 
-		//Setting the vertical and horizontal gaps between the columns 
-		gridPane.setVgap(5); 
-		gridPane.setHgap(5);       
+		//Setting the vertical and horizontal gaps between the columns
+		gridPane.setVgap(5);
+		gridPane.setHgap(5);
 
-		//Setting the Grid alignment 
+		//Setting the Grid alignment
 		gridPane.setAlignment(Pos.CENTER);
 
-		//Arranging all the nodes in the grid 
+		//Arranging all the nodes in the grid
 		gridPane.add(hbox, 0, 0, 2, 1);
 		gridPane.add(text1, 0, 1, 2, 1);
 		gridPane.add(text2, 0, 2, 2, 1);
-		gridPane.add(button1, 0, 3, 2, 1); 
-		gridPane.add(button2, 0, 4, 2, 1); 
+		gridPane.add(button1, 0, 3, 2, 1);
+		gridPane.add(button2, 0, 4, 2, 1);
 		GridPane.setHalignment(text1, HPos.CENTER);
 		GridPane.setHalignment(text2, HPos.CENTER);
 		GridPane.setFillWidth(button1, true);
@@ -78,7 +78,7 @@ public class ChooseMapScene extends GameScene{
 		GridPane.setFillHeight(button2, true);
 
 
-		//Creating a scene object 
+		//Creating a scene object
 		this.scene = new Scene(gridPane);
 	}
 }

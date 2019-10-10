@@ -36,9 +36,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			{1,9},
 			{9,1},
 			{9,9}
-	}; 
+	};
 	public Map<Integer,String> playerStartLocation = new HashMap<Integer, String>();
-	
+
 	protected GameServer() throws RemoteException {
 	}
 

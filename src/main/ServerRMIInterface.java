@@ -9,7 +9,7 @@ public interface ServerRMIInterface extends Remote {
     public void addPlayerListener(ClientRMIInterface addPlayerListener) throws RemoteException;
 
     public void removePlayerListener(ClientRMIInterface addPlayerListener) throws RemoteException;
-    
+
     public void setMaxCount(ClientRMIInterface client,int n) throws RemoteException;
 
     public boolean setLocation(ClientRMIInterface client, int location) throws RemoteException;

@@ -32,22 +32,22 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	public static PlayerClient client;
 	public int startingLocation;
 	public boolean playerStatus = false;
-	
+
 	public int getPlayerNo() {
 		return playerNo;
 	}
-	
+
 	public void setPlayerNo(int playerNo) {
 		this.playerNo = playerNo;
 	}
-	
+
 	public String getPlayerName() {
 		return playerName;
 	}
 	public int getStartingLocation() {
 		return startingLocation;
 	}
-	
+
 	public void setStartingLocation(int location) {
 		this.startingLocation = location;
 		this.playerStatus = true;
@@ -56,7 +56,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	public boolean getPlayerStatus() {
 		return playerStatus;
 	}
-	
+
 
 	protected PlayerClient() throws RemoteException
 	{
@@ -181,7 +181,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 		GameScene hostJoinScene = new HostJoinScene(aw.getStage());
 		aw.setScene(hostJoinScene);
 	}
-	
+
 	public void getMapDetails() {
 		GameScene chooseMapScene = new ChooseMapScene(aw.getStage());
 		aw.setScene(chooseMapScene);
@@ -202,7 +202,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	        System.out.println(e);
 		}
 	}
-	
+
 	public static boolean setLocation(int location) {
     	try {
     		if(lRemoteServer.setLocation(client, location)) {
@@ -218,7 +218,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	    }
 		return false;
 	}
-	
+
 	public void getStartCorner(boolean[] availableLocation) throws RemoteException{
 		System.out.println(Arrays.toString(availableLocation));
 		GameScene chooseStartingScene = new ChooseStartingScene(aw.getStage(),availableLocation);
@@ -234,7 +234,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	public void playerWon() throws RemoteException {
 		System.out.println("Congrats!!!!You won the game!!!!!!");
 	}
-	
+
 	@Override
 	public void updateAvailableLocation(boolean[] availableLocation) throws RemoteException {
 		System.out.println(Arrays.toString(availableLocation));

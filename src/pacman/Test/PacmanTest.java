@@ -159,6 +159,12 @@ public class PacmanTest {
 		GameLogic.circularPathMatch("LUDR");
 	}
 
+	@Test 
+	public void testCheckNotCircularPath() throws Exception {
+		
+		GameLogic.circularPathMatch("LLLLUUUUDDD");
+	}
+
 	@Test (expected=IsWallException.class)
 	public void testGetNewMonsterPositionGoingToWall() throws Exception {
 		
