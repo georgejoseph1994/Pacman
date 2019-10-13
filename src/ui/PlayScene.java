@@ -3,6 +3,7 @@ package ui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -12,6 +13,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -20,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import main.PlayerClient;
 
 public class PlayScene extends GameScene {
@@ -88,5 +95,50 @@ public class PlayScene extends GameScene {
     		}
     	});
         
+	}
+	
+	public void getAlert(boolean hasWon) {
+		Alert a = new Alert(AlertType.NONE);
+		 a.setAlertType(AlertType.INFORMATION); 
+		  
+         // set content text 
+		 if ( hasWon)
+			 a.setContentText("You Won");
+		 else 
+			 a.setContentText("You Lost");
+
+         // show the dialog 
+         a.show(); 
+	}
+	
+	public boolean getGameOverResponse() {
+		Dialog<Boolean> dialog = new Dialog<>();
+		dialog.setTitle("Information");
+		dialog.setHeaderText("Game Over\nDo you want to play another game?");
+		ButtonType buttonTypeOk = new ButtonType("Yes", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+		ButtonType buttonTypeCancel = new ButtonType("No", ButtonData.CANCEL_CLOSE);
+		dialog.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+		ButtonType buttonTypeScore = new ButtonType("View ScoreBoard", ButtonData.HELP);
+		dialog.getDialogPane().getButtonTypes().add(buttonTypeScore);
+		dialog.setResultConverter(new Callback<ButtonType, Boolean>() {
+		    @Override
+		    public Boolean call(ButtonType b) {
+		 
+		        if (b == buttonTypeOk) {
+		 
+		            return true;
+		        }
+		 
+		        return false;
+		    }
+		});
+		Optional<Boolean> result = dialog.showAndWait(); 
+		if (result.isPresent()) {
+			 
+		    return result.get();
+		}
+		else
+			return false;
 	}
 }
