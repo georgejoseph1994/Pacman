@@ -22,6 +22,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 	private static final long serialVersionUID = 1L;
 	public Map< Integer,String> hm = new HashMap< Integer,String>();
 	public Map< Integer, ClientRMIInterface> clients = new HashMap< Integer, ClientRMIInterface>();
+	public int[] clientsInactive= new int[4];
 	public PacmanMap pacmanMap;
 	public int mapID;
 	public Monster monster;
@@ -47,9 +48,25 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 	}
 
 	private void notifyPlayers() {
+
+		for(int i=0;i<clientsInactive.length;i++)
+			clients.remove(clientsInactive[i]);
 		for (Entry<Integer, ClientRMIInterface> client : clients.entrySet()) {
 			try {
 				client.getValue().mapChanged(pacmanMap.displayGrid());
+			} catch (RemoteException aInE) {
+				clients.remove(client.getKey());
+			}
+		}
+	}
+
+private void notifyGameOver() {
+		System.out.println("Notify game over");
+		for(int i=0;i<clientsInactive.length;i++)
+			clients.remove(clientsInactive[i]);
+		for (Entry<Integer, ClientRMIInterface> client : clients.entrySet()) {
+			try {
+				client.getValue().gameOver();
 			} catch (RemoteException aInE) {
 				clients.remove(client.getKey());
 			}
@@ -161,8 +178,10 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 	}
 
 	@Override
-	public void removePlayerListener(ClientRMIInterface player) throws RemoteException {
-		clients.remove(player);
+	public void removePlayerListener(ClientRMIInterface player, int playerNo) throws RemoteException {
+		System.out.println("Removed player");
+//		clients.remove(player);
+		clientsInactive[clientsInactive.length] = playerNo;
 	}
 
 	public static void main(String[] args) {
@@ -172,7 +191,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			System.setProperty("java.rmi.server.hostname","192.168.43.117");
 			lServer = new GameServer();
 			// Binding the remote object (stub) in the registry
-			
+
 			Registry reg = LocateRegistry.createRegistry(52369);
 			String url = "rmi://0.0.0.0:52369/Hello";
 
@@ -211,29 +230,35 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 					monsterSleep = 3;
 					int playerNumber = Character.getNumericValue(playerFailed.getRepresentation().charAt(2));
 					System.out.println(playerFailed.getRepresentation());
-					ClientRMIInterface failedClient = lServer.clients.get(playerNumber);
-					System.out.println("Player Failed "+playerFailed.getRepresentation().charAt(2) + " : " + failedClient);
-					try {
-						failedClient.mapChanged(lServer.pacmanMap.displayGrid());
-						failedClient.playerFailed();
-						lServer.players.remove(lServer.players.indexOf(playerFailed));
-						System.out.println(lServer.players.size());
-						if(lServer.players.size()==1) {
-							Player playerWon = lServer.players.get(0);
-							int wonPlayerNumber = Character.getNumericValue(playerWon.getRepresentation().charAt(2));
-							ClientRMIInterface wonClient = lServer.clients.get(wonPlayerNumber);
+//					if(lServer.clients.get(playerNumber) != null)
+					{
+						ClientRMIInterface failedClient = lServer.clients.get(playerNumber);
+						System.out.println("Player Failed "+playerFailed.getRepresentation().charAt(2) + " : " + failedClient);
+						try {
+							failedClient.mapChanged(lServer.pacmanMap.displayGrid());
+							failedClient.playerFailed(lServer.pacmanMap.displayGrid());
+							lServer.players.remove(lServer.players.indexOf(playerFailed));
+							System.out.println(lServer.players.size());
+							if(lServer.players.size()==1) {
+								Player playerWon = lServer.players.get(0);
+								int wonPlayerNumber = Character.getNumericValue(playerWon.getRepresentation().charAt(2));
+								ClientRMIInterface wonClient = lServer.clients.get(wonPlayerNumber);
 
-							wonClient.mapChanged(lServer.pacmanMap.displayGrid());
-							wonClient.playerWon();
-							wonClient.stopGame();
-							lServer.playerCount = -1;
-							lServer.gameStart = false;
+								wonClient.mapChanged(lServer.pacmanMap.displayGrid());
+								wonClient.playerWon(lServer.pacmanMap.displayGrid());
+								lServer.notifyGameOver();
+								wonClient.stopGame();
+								lServer.playerCount = -1;
+								lServer.gameStart = false;
+
+							}
+						} catch (RemoteException aInE) {
+							lServer.clients.remove(playerNumber);
 						}
-					} catch (RemoteException aInE) {
-						lServer.clients.remove(playerNumber);
 					}
 				}
-				lServer.notifyPlayers();
+				if(lServer.gameStart==true)
+					lServer.notifyPlayers();
         	}
 		}
 	}

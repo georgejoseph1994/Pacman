@@ -5,8 +5,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -74,9 +76,9 @@ public class ConnectScene extends GameScene{
 		//Arranging all the nodes in the grid
 		gridPane.add(hbox, 0, 0, 3, 1);
 		gridPane.add(text1, 0, 1);
-		gridPane.add(textField1, 1, 1, 1, 2);
+		gridPane.add(textField1, 1, 1, 2, 1);
 		gridPane.add(text2, 0, 2);
-		gridPane.add(textField2, 1, 2, 1, 2);
+		gridPane.add(textField2, 1, 2, 2, 1);
 		gridPane.add(button1, 1, 5);
 		gridPane.add(button2, 2, 5);
 
@@ -157,8 +159,4 @@ public class ConnectScene extends GameScene{
 		this.scene = new Scene(gridPane);
 	}
 
-	public void gotoHostJoinScene(Stage stage) {
-		GameScene hostJoinScene = new HostJoinScene(stage);
-		rootStage.setScene(hostJoinScene.scene);
-	}
 }

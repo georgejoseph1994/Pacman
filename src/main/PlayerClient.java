@@ -15,6 +15,7 @@ import ui.ConnectScene;
 import ui.GameScene;
 import ui.HostJoinScene;
 import ui.PlayScene;
+import ui.RestartGameScene;
 
 public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterface {
 
@@ -32,6 +33,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	public static PlayerClient client;
 	public int startingLocation;
 	public boolean playerStatus = false;
+	public boolean hasWon;
 
 	public int getPlayerNo() {
 		return playerNo;
@@ -194,13 +196,24 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	 }
 
 	@Override
-	public void playerFailed() throws RemoteException {
+	public void playerFailed(String[][] grid) throws RemoteException {
 		System.out.println("Player Failed");
+		hasWon=false;
 	}
 
 	@Override
-	public void playerWon() throws RemoteException {
+	public void gameOver() throws RemoteException {
+		System.out.println("Game Over");
+		RestartGameScene restartGameScene = new RestartGameScene(aw.getStage(), hasWon);
+		aw.setScene(restartGameScene);
+
+	}
+
+	@Override
+	public void playerWon(String[][] grid) throws RemoteException {
 		System.out.println("Congrats!!!!You won the game!!!!!!");
+		hasWon = true;
+
 	}
 
 	@Override
@@ -211,10 +224,19 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 			aw.setScene(chooseStartingScene);
 		}
 	}
-	
+
 	public void rejectLogin() throws RemoteException {
 		GameScene connectScene = new ConnectScene(aw.getStage(), true);
 		aw.setScene(connectScene);
 	}
+
+	public static void removePlayer() {
+		try {
+			lRemoteServer.removePlayerListener(client, client.playerNo);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+	        System.exit(0);
+		}
+	 }
 
 }
