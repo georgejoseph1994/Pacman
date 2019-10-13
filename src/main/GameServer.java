@@ -134,11 +134,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 			Cell monsterCell = pacmanMap.getCell(10, 9);
 			monster = new Monster(1, monsterCell);
-			try {
-				pacmanMap.addMonster(monster);
-			} catch (InvalidPlayerPositionException e) {
-				System.out.println("Invalid Player ");
-			}
+			pacmanMap.addMonster(monster);
 
 			for (ClientRMIInterface sclient : clients.values())
 			{
@@ -152,7 +148,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 				System.out.println(players.size());
 			}
-		}  catch (Exception aInE) {
+		} catch (InvalidPlayerPositionException e) {
+			System.out.println("Invalid Position ");
+		} catch (Exception aInE) {
 			System.out.println("Remote error 1- " + aInE);
 			gameStart = false;
 		}
