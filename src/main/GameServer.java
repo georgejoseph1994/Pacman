@@ -134,7 +134,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			pacmanMap = new PacmanMap();
 			pacmanMap.initialiseMap(mapID);
 
-			Cell monsterCell = pacmanMap.getCell(9, 10);
+			Cell monsterCell = pacmanMap.getCell(10, 9);
 			monster = new Monster(1, monsterCell);
 			try {
 				pacmanMap.addMonster(monster);

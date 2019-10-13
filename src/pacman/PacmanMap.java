@@ -104,8 +104,8 @@ public class PacmanMap {
 				{ "W", "W", "W", "W", "P", "W", "W", "W", "P", "W", "P", "W", "W", "W", "P", "W", "W", "W", "W" },
 				{ "P", "P", "P", "W", "P", "W", "P", "P", "P", "P", "P", "P", "P", "W", "P", "W", "P", "P", "P" },
 				{ "W", "W", "W", "W", "P", "W", "P", "W", "P", "W", "P", "W", "P", "W", "P", "W", "W", "W", "W" },
-				{ "P", "P", "P", "P", "P", "P", "P", "W", "P", "P", "P", "W", "P", "P", "P", "P", "P", "P", "P" },
-				{ "W", "W", "W", "W", "P", "W", "P", "W", "W", "W", "W", "W", "P", "W", "P", "W", "W", "W", "W" },
+				{ "P", "P", "P", "P", "P", "P", "P", "p", "P", "P", "P", "W", "P", "P", "P", "P", "P", "P", "P" },
+				{ "W", "W", "W", "W", "P", "W", "P", "W", "P", "W", "W", "W", "P", "W", "P", "W", "W", "W", "W" },
 				{ "P", "P", "P", "W", "P", "W", "P", "P", "P", "P", "P", "P", "P", "W", "P", "W", "P", "P", "P" },
 				{ "W", "W", "W", "W", "P", "W", "P", "W", "W", "W", "W", "W", "P", "W", "P", "W", "W", "W", "W" },
 				{ "W", "P", "P", "P", "P", "P", "P", "P", "P", "W", "P", "P", "P", "P", "P", "P", "P", "P", "W" },
@@ -147,11 +147,15 @@ public class PacmanMap {
 		/*
 		 * Injecting Portals into the grid
 		 */
-		testMap[9][0] = new Cell(9, 0, new Portal(new Cell(9, 17)));
-		testMap[9][18] = new Cell(9, 18, new Portal(new Cell(9, 1)));
 		if (mapId == 1) {
+			testMap[10][0] = new Cell(10, 0, new Portal(new Cell(10, 17)));
+			testMap[10][18] = new Cell(10, 18, new Portal(new Cell(10, 1)));
+			
 			testMap[0][9] = new Cell(0, 9, new Portal(new Cell(19, 9)));
 			testMap[20][9] = new Cell(20, 9, new Portal(new Cell(1, 9)));
+		} else {
+			testMap[9][0] = new Cell(9, 0, new Portal(new Cell(9, 17)));
+			testMap[9][18] = new Cell(9, 18, new Portal(new Cell(9, 1)));
 		}
 		
 		/*
