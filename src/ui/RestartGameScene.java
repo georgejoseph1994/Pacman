@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -47,7 +48,7 @@ public class RestartGameScene extends GameScene{
 
 			@Override
 			public void handle(ActionEvent event) {
-				
+				PlayerClient.removePlayer();
 			}
 		});
 		//Creating a Grid Pane

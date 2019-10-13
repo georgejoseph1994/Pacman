@@ -37,10 +37,6 @@ public class PlayScene extends GameScene {
 	}
 	
 	
-	public PlayScene(Stage stage, String[][] map, boolean hasWon) {
-		super(stage);
-		getAlert(hasWon);
-	}
 	public void updateGameScene(String[][] map) {
 		System.out.println("Map Changed");
 		HBox hbox = this.generateHeaderHBox();
@@ -101,48 +97,4 @@ public class PlayScene extends GameScene {
     	});
 	}
 	
-	public void getAlert(boolean hasWon) {
-		Alert a = new Alert(AlertType.NONE);
-		 a.setAlertType(AlertType.INFORMATION); 
-		  
-         // set content text 
-		 if (hasWon)
-			 a.setContentText("You Won");
-		 else 
-			 a.setContentText("You Lost");
-
-         // show the dialog 
-         a.show(); 
-	}
-	
-	public boolean getGameOverResponse() {
-		Dialog<Boolean> dialog = new Dialog<>();
-		dialog.setTitle("Information");
-		dialog.setHeaderText("Game Over\nDo you want to play another game?");
-		ButtonType buttonTypeOk = new ButtonType("Yes", ButtonData.OK_DONE);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		ButtonType buttonTypeCancel = new ButtonType("No", ButtonData.CANCEL_CLOSE);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeCancel);
-		ButtonType buttonTypeScore = new ButtonType("View ScoreBoard", ButtonData.HELP);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeScore);
-		dialog.setResultConverter(new Callback<ButtonType, Boolean>() {
-		    @Override
-		    public Boolean call(ButtonType b) {
-		 
-		        if (b == buttonTypeOk) {
-		 
-		            return true;
-		        }
-		 
-		        return false;
-		    }
-		});
-		Optional<Boolean> result = dialog.showAndWait(); 
-		if (result.isPresent()) {
-			 
-		    return result.get();
-		}
-		else
-			return false;
-	}
 }
