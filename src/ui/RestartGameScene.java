@@ -5,58 +5,47 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.PlayerClient;
 
-public class ConnectScene extends GameScene{
+public class RestartGameScene extends GameScene{
 
-	ConnectScene(Stage stage) {
+	public RestartGameScene(Stage stage, boolean hasWon) {
 		super(stage);
 
 		HBox hbox = this.generateHeaderHBox();
 		//creating label IP
-		Text text1 = new Text("Server IP");
+		Text text1 = new Text("Game Over. You Won!!");
 
-
-		//Creating Text Filed for IP
-		TextField textField1 = new TextField();
 
 		//creating label Player Name
-		Text text2 = new Text("Player Name");
+		Text text2 = new Text("Do you want to play again?");
 
-
-		//Creating Text Filed for Player Name
-		TextField textField2 = new TextField();
 
 
 		//Creating Button
-		Button button1 = new Button("Connect");
+		Button button1 = new Button("Yes");
 		button1.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if(textField1.getText()!=null && textField2.getText()!=null) {
-					System.out.println("Connect attempt with IP: " + textField1.getText());
-					if(!PlayerClient.connectServer(textField1.getText(), textField2.getText())) {
-						System.out.println("Connection Refused");
-					}else {
-						System.out.println("Connection Established");
-
-					}
-				}
-				// Write code here to actually send the IP to server
-				// and call the next stage on successful connection
+				
 			}
 		});
 		
-		Button button2 = new Button("View Scoreboard");
+		Button button2 = new Button("No");
+		button2.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
 		//Creating a Grid Pane
 		GridPane gridPane = new GridPane();
 
@@ -75,10 +64,8 @@ public class ConnectScene extends GameScene{
 
 		//Arranging all the nodes in the grid
 		gridPane.add(hbox, 0, 0, 3, 1);
-		gridPane.add(text1, 0, 1);
-		gridPane.add(textField1, 1, 1, 2, 1);
-		gridPane.add(text2, 0, 2);
-		gridPane.add(textField2, 1, 2, 2, 1);
+		gridPane.add(text1, 0, 1, 2, 1);
+		gridPane.add(text2, 0, 2, 2, 1);
 		gridPane.add(button1, 1, 5);
 		gridPane.add(button2, 2, 5);
 
@@ -87,5 +74,4 @@ public class ConnectScene extends GameScene{
 		this.scene = new Scene(gridPane);
 
 	}
-
 }

@@ -1,8 +1,17 @@
 package ui;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import main.PlayerClient;
 
 public class ApplicationWindow  extends Application {
 	private static Stage stage;
@@ -63,7 +72,7 @@ public class ApplicationWindow  extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
-        
+        PlayerClient.removePlayer();
     }
 
 	private void gotoHostJoinScene() {

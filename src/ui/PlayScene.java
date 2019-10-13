@@ -36,6 +36,11 @@ public class PlayScene extends GameScene {
 		updateGameScene(map);
 	}
 	
+	
+	public PlayScene(Stage stage, String[][] map, boolean hasWon) {
+		super(stage);
+		getAlert(hasWon);
+	}
 	public void updateGameScene(String[][] map) {
 		System.out.println("Map Changed");
 		HBox hbox = this.generateHeaderHBox();
@@ -94,7 +99,6 @@ public class PlayScene extends GameScene {
     			PlayerClient.changePlayerDirection(direction);
     		}
     	});
-        
 	}
 	
 	public void getAlert(boolean hasWon) {
@@ -102,7 +106,7 @@ public class PlayScene extends GameScene {
 		 a.setAlertType(AlertType.INFORMATION); 
 		  
          // set content text 
-		 if ( hasWon)
+		 if (hasWon)
 			 a.setContentText("You Won");
 		 else 
 			 a.setContentText("You Lost");

@@ -20,7 +20,7 @@ public HBox generateHeaderHBox() {
     Image image = new Image(file.toURI().toString());
     ImageView iv1 = new ImageView();
     iv1.setImage(image);
-    iv1.setFitWidth(300);
+    iv1.setFitWidth(242);
     iv1.setPreserveRatio(true);
     iv1.setSmooth(true);
     iv1.setCache(true);
