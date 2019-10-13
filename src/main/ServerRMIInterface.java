@@ -16,4 +16,6 @@ public interface ServerRMIInterface extends Remote {
 
 	public void setMap(ClientRMIInterface client, int mapId) throws RemoteException;
 
+	public void restartGame() throws RemoteException;
+
 }

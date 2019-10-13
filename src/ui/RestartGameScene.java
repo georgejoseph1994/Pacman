@@ -38,7 +38,7 @@ public class RestartGameScene extends GameScene{
 
 			@Override
 			public void handle(ActionEvent event) {
-				
+				PlayerClient.restartGame();
 			}
 		});
 		

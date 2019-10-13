@@ -239,4 +239,12 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 		}
 	 }
 
+	public static void restartGame() {
+		try {
+			lRemoteServer.restartGame();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -147,6 +147,11 @@ private void notifyGameOver() {
 		}
 		return returnValue;
 	}
+	
+	@Override
+	public void restartGame() throws RemoteException {
+		intializeGameEnvironment();
+	}
 
 	public void intializeGameEnvironment() {
 		try {
@@ -188,7 +193,7 @@ private void notifyGameOver() {
 
 		GameServer lServer = null;
 		try {
-			System.setProperty("java.rmi.server.hostname","192.168.43.117");
+			System.setProperty("java.rmi.server.hostname","192.168.1.9");
 			lServer = new GameServer();
 			// Binding the remote object (stub) in the registry
 
