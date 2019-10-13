@@ -11,6 +11,7 @@ import java.util.Scanner;
 import ui.ApplicationWindow;
 import ui.ChooseMapScene;
 import ui.ChooseStartingScene;
+import ui.ConnectScene;
 import ui.GameScene;
 import ui.HostJoinScene;
 import ui.PlayScene;
@@ -106,7 +107,7 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 		try {
 	    	System.out.println(direction);
 	    	if(direction.compareTo("UP")==0) {
-					lRemoteServer.receiveMove(client.playerNo, "U");
+				lRemoteServer.receiveMove(client.playerNo, "U");
 	    	} else if(direction.compareTo("DOWN")==0) {
 	    		lRemoteServer.receiveMove(client.playerNo, "D");
 	    	} else if(direction.compareTo("LEFT")==0) {
@@ -209,6 +210,11 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 			GameScene chooseStartingScene = new ChooseStartingScene(aw.getStage(),availableLocation);
 			aw.setScene(chooseStartingScene);
 		}
+	}
+	
+	public void rejectLogin() throws RemoteException {
+		GameScene connectScene = new ConnectScene(aw.getStage(), true);
+		aw.setScene(connectScene);
 	}
 
 }

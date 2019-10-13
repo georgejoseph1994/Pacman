@@ -58,24 +58,28 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 	@Override
 	public void addPlayerListener(ClientRMIInterface client) throws RemoteException {
-		try {
-			playerCount++;
-			System.out.println(playerCount);
-			clients.put(playerCount, client);
-			client.setPlayerNo(playerCount);
-			if (playerCount==1) {
-				System.out.println("Host Player has joined");
-				System.out.println("Getting game Details");
-				client.getGameDetails();
+		if(playerCount<maxCount) {
+			try {
+				playerCount++;
+				System.out.println(playerCount);
+				clients.put(playerCount, client);
+				client.setPlayerNo(playerCount);
+				if (playerCount==1) {
+					System.out.println("Host Player has joined");
+					System.out.println("Getting game Details");
+					client.getGameDetails();
+				}
+				else {
+					System.out.println("Another player has joined");
+					System.out.println("Player asked for start corner");
+					client.getStartCorner(availableLocation);
+				}
+			} catch (Exception aInE) {
+				playerCount--;
+				System.out.println("Remote error 1- " + aInE);
 			}
-			else {
-				System.out.println("Another player has joined");
-				System.out.println("Player asked for start corner");
-				client.getStartCorner(availableLocation);
-			}
-		} catch (Exception aInE) {
-			playerCount--;
-			System.out.println("Remote error 1- " + aInE);
+		} else {
+			client.rejectLogin();
 		}
 	}
 

@@ -20,4 +20,5 @@ public interface ClientRMIInterface extends Remote
 	void setStartingLocation(int location) throws RemoteException;
 	int getStartingLocation() throws RemoteException;
 	void updateAvailableLocation(boolean[] availableLocation) throws RemoteException;
+	void rejectLogin() throws RemoteException;
 }
