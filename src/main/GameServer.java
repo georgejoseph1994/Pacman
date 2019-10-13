@@ -165,10 +165,12 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 		GameServer lServer = null;
 		try {
+			System.setProperty("java.rmi.server.hostname","192.168.43.117");
 			lServer = new GameServer();
 			// Binding the remote object (stub) in the registry
+			
 			Registry reg = LocateRegistry.createRegistry(52369);
-			String url = "rmi://localhost:52369/Hello";
+			String url = "rmi://0.0.0.0:52369/Hello";
 
 			Naming.rebind(url, lServer);
 		} catch (RemoteException e) {
@@ -184,6 +186,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 		 */
 
 
+		int monsterSleep = 3;
 		while (true) {
 			try {
 				Thread.sleep(1000);
@@ -194,9 +197,14 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 				for( int i=0; i<lServer.players.size(); i++) {
 					lServer.players.set(i, lServer.pacmanMap.movePlayer(lServer.players.get(i), lServer.hm.get(i+1)));
 				}
-				Player playerFailed = lServer.pacmanMap.moveMonster(lServer.monster, lServer.players);
+				Player playerFailed = null;
+				if(monsterSleep==0)
+					playerFailed = lServer.pacmanMap.moveMonster(lServer.monster, lServer.players);
+				else
+					monsterSleep--;
 				
 				if(playerFailed!=null) {
+					monsterSleep = 3;
 					int playerNumber = Character.getNumericValue(playerFailed.getRepresentation().charAt(2));
 					System.out.println(playerFailed.getRepresentation());
 					ClientRMIInterface failedClient = lServer.clients.get(playerNumber);
