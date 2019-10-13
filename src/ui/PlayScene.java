@@ -18,37 +18,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import main.PlayerClient;
 
 public class PlayScene extends GameScene {
 	private static final String[] playerColors = { "BLUE", "RED", "PINK", "ORANGE" };
-	PlayScene(Stage stage) {
+	public PlayScene(Stage stage, String[][] map) {
 		super(stage);
-		 String[][] map = 
-             {{"W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"},
-	    		{"W","A1","P","P","P","P","P","P","P","P","P","P","P","P","P","P","P","A2","W"},
-	    		{"W","P","W","W","P","W","W","W","W","W","W","W","W","W","P","W","W","P","W"},
-	    		{"W","P","P","P","P","P","P","P","P","P","P","P","P","P","P","P","P","P","W"},
-	    		{"W","P","W","W","P","W","P","W","W","W","W","W","P","W","P","W","W","P","W"},
-	    		{"W","P","P","P","P","W","P","P","P","W","P","P","P","W","P","P","P","P","W"},
-	    		{"W","W","W","W","P","W","W","W","P","W","P","W","W","W","P","W","W","W","W"},
-	    		{"P","P","P","W","P","W","P","P","P","P","P","P","P","W","P","W","P","P","P"},
-	    		{"W","W","W","W","P","W","P","W","P","W","P","W","P","W","P","W","W","W","W"},
-	    		{"P","P","P","P","P","P","P","W","M","P","P","W","P","P","P","P","P","P","P"},
-	    		{"W","W","W","W","P","W","P","W","W","W","W","W","P","W","P","W","W","W","W"},
-	    		{"P","P","P","W","P","W","P","P","P","P","P","P","P","W","P","W","P","P","P"},
-	    		{"W","W","W","W","P","W","P","W","W","W","W","W","P","W","P","W","W","W","W"},
-	    		{"W","P","P","P","P","P","P","P","P","W","P","P","P","P","P","P","P","P","W"},
-	    		{"W","P","W","W","P","W","W","W","W","W","W","W","W","W","P","W","W","P","W"},
-	    		{"W","P","P","W","P","P","P","P","P","P","P","P","P","P","P","W","P","P","W"},
-	    		{"W","W","P","W","P","W","P","W","W","W","W","W","P","W","P","W","P","W","W"},
-	    		{"W","P","P","P","P","W","P","P","P","W","P","P","P","W","P","P","P","P","W"},
-	    		{"W","P","W","W","W","W","W","W","P","W","P","W","W","W","W","W","W","P","W"},
-	    		{"W","A4","P","P","P","P","P","P","P","P","P","P","P","P","P","P","P","A3","W"},
-	    		{"W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"}};
 		updateGameScene(map);
 	}
 	
 	public void updateGameScene(String[][] map) {
+		System.out.println("Map Changed");
 		HBox hbox = this.generateHeaderHBox();
 		Group root = new Group();
 		Scene s = new Scene(root, 700, 700, Color.BLACK);
@@ -100,7 +80,8 @@ public class PlayScene extends GameScene {
         this.scene = new Scene(gridPane);
         this.scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
     		public void handle(KeyEvent event) {
-    			System.out.println(event.getCode());
+    			String direction = event.getCode().toString();
+    			PlayerClient.changePlayerDirection(direction);
     		}
     	});
         

@@ -218,10 +218,11 @@ public class PacmanMap {
 			cells.add(players.get(i).currentCell);
 		String bestPath;
 		try {
-			bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 10, grid);
+			bestPath = GameLogic.getBestDirection(monster.currentCell, cells, "", 30, grid);
 		} catch (NoPathException e) {
 			bestPath = null;
 		}
+		System.out.println(bestPath);
 		if (bestPath == null || bestPath == "")
 			return playerFailed;
 		else {
@@ -267,9 +268,7 @@ public class PacmanMap {
 			for (int j = 0; j < 19; j++) {
 				Occupant cellOccupant = this.getCell(i, j).getOccupant();
 				mapMatrix[i][j] = cellOccupant.getIdentity();
-				System.out.print(cellOccupant.getRepresentation());
 			}
-			System.out.println();
 		}
 		return mapMatrix;
 	}

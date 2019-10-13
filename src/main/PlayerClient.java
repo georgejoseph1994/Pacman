@@ -8,13 +8,12 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-
 import ui.ApplicationWindow;
 import ui.ChooseMapScene;
 import ui.ChooseStartingScene;
 import ui.GameScene;
 import ui.HostJoinScene;
+import ui.PlayScene;
 
 public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterface {
 
@@ -27,8 +26,8 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	public int playerNo;
 	public String playerName;
 	public static Scanner input = new Scanner(System.in);
-	public Renderer renderer;
 	public static ApplicationWindow aw;
+	public PlayScene playScene;
 	public static PlayerClient client;
 	public int startingLocation;
 	public boolean playerStatus = false;
@@ -70,40 +69,6 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
             PlayerClient client = new PlayerClient();
             aw = new ApplicationWindow();
             aw.launchWindow(args);
-//            
-//            System.out.println("Enter player number: ");
-//            input = new Scanner(System.in);
-//            client.playerName = Integer.parseInt(input.nextLine());
-//            
-//            //Create a temperature monitor and register it as a Listener
-//            client.lRemoteServer.addPlayerListener(client, client.playerNo);
-//            System.out.println("Waiting for all players to join");
-//            while(true) {
-//            	System.out.println(isGameOngoing);
-//            	if(client.isGameOngoing) {
-//            		System.out.println("Enter move: ");
-//                	String value = input.next();
-//                	switch (value.charAt(0)) {
-//						case 'W':
-//						case 'w':
-//		                	client.lRemoteServer.receiveMove(client.playerName, "U");
-//							break;
-//						case 'A':
-//						case 'a':
-//		                	client.lRemoteServer.receiveMove(client.playerName, "L");
-//							break;
-//						case 'S':
-//						case 's':
-//		                	client.lRemoteServer.receiveMove(client.playerName, "D");
-//							break;
-//						case 'D':
-//						case 'd':
-//		                	client.lRemoteServer.receiveMove(client.playerName, "R");
-//							break;
-//						
-//					}
-//            	}
-//            }
         }
         catch (Exception aInE)
         {
@@ -113,18 +78,14 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 
     public void mapChanged(String[][] grid) throws RemoteException
     {	
-    	renderer.setMap(grid);
-    	for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 11; j++) {			
-				System.out.print(grid[i][j]); 
-			}
-			System.out.println();
-		}
 
+		playScene = new PlayScene(aw.getStage(), grid);
+		aw.setScene(playScene);
     }
     
     public static boolean connectServer(String ip, String playerName) {
     	try {
+    		System.out.println(ip);
 	    	String url = "rmi://" + ip + ":52369/Hello";
 	        Remote lRemote = Naming.lookup(url);
 	        lRemoteServer = (ServerRMIInterface) lRemote;
@@ -141,23 +102,29 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 	    }
     }
     
+    public static void changePlayerDirection(String direction) {
+		try {
+	    	System.out.println(direction);
+	    	if(direction.compareTo("UP")==0) {
+					lRemoteServer.receiveMove(client.playerNo, "U");
+	    	} else if(direction.compareTo("DOWN")==0) {
+	    		lRemoteServer.receiveMove(client.playerNo, "D");
+	    	} else if(direction.compareTo("LEFT")==0) {
+	    		lRemoteServer.receiveMove(client.playerNo, "L");
+	    	} else if(direction.compareTo("RIGHT")==0) {
+	    		lRemoteServer.receiveMove(client.playerNo, "R");
+	    	} 
+		} catch (Exception aInE)
+        {
+            System.out.println(aInE);
+        }
+    }
+    
 	public void startGame() throws RemoteException
     {	
     	 try
          {
-			isGameOngoing=true;
-			renderer = new Renderer();
-			JFrame frame = new JFrame();
-			frame.setTitle(Renderer.TITLE);
-			frame.add(renderer);
-			frame.setResizable(false);
-			frame.pack();
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setLocationRelativeTo(null);
-			
-			frame.setVisible(true);
-			
-			renderer.start();
+    		 System.out.println("Starting Game");
 		}
 		catch (Exception aInE)
 		{

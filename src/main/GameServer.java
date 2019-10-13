@@ -33,9 +33,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 	private boolean gameStart = false;
 	public int[][] initialCellPos = {
 			{1,1},
-			{1,9},
-			{9,1},
-			{9,9}
+			{1,17},
+			{19,1},
+			{19,17}
 	};
 	public Map<Integer,String> playerStartLocation = new HashMap<Integer, String>();
 
@@ -132,9 +132,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 	public void intializeGameEnvironment() {
 		try {
 			pacmanMap = new PacmanMap();
-			pacmanMap.initialiseTestMap();
+			pacmanMap.initialiseMap(mapID);
 
-			Cell monsterCell = pacmanMap.getCell(5, 5);
+			Cell monsterCell = pacmanMap.getCell(9, 10);
 			monster = new Monster(1, monsterCell);
 			try {
 				pacmanMap.addMonster(monster);
@@ -190,7 +190,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 		while (true) {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				System.out.println("Error while thread sleeping");
 			}
@@ -199,9 +199,7 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 					lServer.pacmanMap.movePlayer(lServer.players.get(i), lServer.hm.get(i+1));
 				}
 				Player playerFailed = lServer.pacmanMap.moveMonster(lServer.monster, lServer.players);
-				System.out.println(playerFailed+"*");
 				if(playerFailed!=null) {
-					System.out.println(playerFailed+"*");
 					int playerNumber = Character.getNumericValue(playerFailed.getRepresentation().charAt(2));
 					System.out.println(playerFailed.getRepresentation());
 					ClientRMIInterface failedClient = lServer.clients.get(playerNumber);
