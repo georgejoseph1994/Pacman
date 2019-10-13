@@ -53,6 +53,8 @@ public class ConnectScene extends GameScene{
 				// and call the next stage on successful connection
 			}
 		});
+		
+		Button button2 = new Button("View Scoreboard");
 		//Creating a Grid Pane
 		GridPane gridPane = new GridPane();
 
@@ -70,12 +72,13 @@ public class ConnectScene extends GameScene{
 		gridPane.setAlignment(Pos.CENTER);
 
 		//Arranging all the nodes in the grid
-		gridPane.add(hbox, 0, 0, 2, 1);
+		gridPane.add(hbox, 0, 0, 3, 1);
 		gridPane.add(text1, 0, 1);
-		gridPane.add(textField1, 1, 1);
+		gridPane.add(textField1, 1, 1, 1, 2);
 		gridPane.add(text2, 0, 2);
-		gridPane.add(textField2, 1, 2);
+		gridPane.add(textField2, 1, 2, 1, 2);
 		gridPane.add(button1, 1, 5);
+		gridPane.add(button2, 2, 5);
 
 
 		//Creating a scene object

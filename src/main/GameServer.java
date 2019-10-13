@@ -96,8 +96,6 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 
 	public boolean setLocation(ClientRMIInterface client, int location) throws RemoteException  {
 		boolean returnValue = false;
-		System.out.println(location);
-		System.out.println(availableLocation[location]);
 		if( availableLocation[location] == true ) {
 			availableLocation[location] = false;
 			client.setStartingLocation(location);
@@ -116,9 +114,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 					System.out.println("Game Started");
 					for (ClientRMIInterface sclient : clients.values())
 					{
-						intializeGameEnvironment();
 						sclient.startGame();
 					}
+					intializeGameEnvironment();
 				}
 			}
 		}
@@ -139,20 +137,20 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			try {
 				pacmanMap.addMonster(monster);
 			} catch (InvalidPlayerPositionException e) {
-				System.out.println("*Invalid Player ");
+				System.out.println("Invalid Player ");
 			}
 
 			for (ClientRMIInterface sclient : clients.values())
 			{
 				int playerNo = sclient.getPlayerNo();
 				int playerLocation = sclient.getStartingLocation();
-				System.out.println(playerLocation);
 				Cell startingCell = pacmanMap.getCell(initialCellPos[playerLocation][0], initialCellPos[playerLocation][1]);
-				System.out.println(startingCell.getRow()+" " + startingCell.getCol());
 				Player player = new Player(playerNo, startingCell);
 				players.add( player );
 				pacmanMap.addPlayer(player);
 				gameStart = true;
+
+				System.out.println(players.size());
 			}
 		}  catch (Exception aInE) {
 			System.out.println("Remote error 1- " + aInE);
@@ -196,9 +194,10 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 			}
         	if(lServer.gameStart==true) {
 				for( int i=0; i<lServer.players.size(); i++) {
-					lServer.pacmanMap.movePlayer(lServer.players.get(i), lServer.hm.get(i+1));
+					lServer.players.set(i, lServer.pacmanMap.movePlayer(lServer.players.get(i), lServer.hm.get(i+1)));
 				}
 				Player playerFailed = lServer.pacmanMap.moveMonster(lServer.monster, lServer.players);
+				
 				if(playerFailed!=null) {
 					int playerNumber = Character.getNumericValue(playerFailed.getRepresentation().charAt(2));
 					System.out.println(playerFailed.getRepresentation());
@@ -207,11 +206,9 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 					try {
 						failedClient.mapChanged(lServer.pacmanMap.displayGrid());
 						failedClient.playerFailed();
-						lServer.playerCount--;
-						lServer.maxCount--;
 						lServer.players.remove(lServer.players.indexOf(playerFailed));
-						lServer.clients.remove(playerNumber);
-						if(lServer.maxCount==1) {
+						System.out.println(lServer.players.size());
+						if(lServer.players.size()==1) {
 							Player playerWon = lServer.players.get(0);
 							int wonPlayerNumber = Character.getNumericValue(playerWon.getRepresentation().charAt(2));
 							ClientRMIInterface wonClient = lServer.clients.get(wonPlayerNumber);

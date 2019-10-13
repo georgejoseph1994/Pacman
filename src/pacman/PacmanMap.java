@@ -191,7 +191,7 @@ public class PacmanMap {
 		}
 	}
 
-	public void movePlayer(Player player, String direction) {
+	public Player movePlayer(Player player, String direction) {
 		if (direction != null) {
 			int i = player.currentCell.getRow();
 			int j = player.currentCell.getCol();
@@ -213,6 +213,7 @@ public class PacmanMap {
 			grid[i][j].occupant = path;
 			grid[newI][newJ].occupant = player;
 		}
+		return player;
 	}
 
 	public Player moveMonster(Monster monster, ArrayList<Player> players) {
@@ -226,7 +227,6 @@ public class PacmanMap {
 		} catch (NoPathException e) {
 			bestPath = null;
 		}
-		System.out.println(bestPath);
 		if (bestPath == null || bestPath == "")
 			return playerFailed;
 		else {

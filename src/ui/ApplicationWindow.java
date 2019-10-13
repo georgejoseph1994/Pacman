@@ -59,6 +59,12 @@ public class ApplicationWindow  extends Application {
         thread.start();
 
     }
+    
+    @Override
+    public void stop(){
+        System.out.println("Stage is closing");
+        
+    }
 
 	private void gotoHostJoinScene() {
 		prevScene.rootStage.setScene(scene.scene);
