@@ -20,7 +20,11 @@ public class RestartGameScene extends GameScene{
 
 		HBox hbox = this.generateHeaderHBox();
 		//creating label IP
-		Text text1 = new Text("Game Over. You Won!!");
+		Text text1;
+		if (hasWon)
+			text1 = new Text("Game Over. You Won!!");
+		else
+			text1 = new Text("Game Over. You Lost!!");
 
 
 		//creating label Player Name
