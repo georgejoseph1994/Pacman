@@ -1,44 +1,57 @@
 package pacman;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import exception.InvalidPlayerPositionException;
 
 public class Game {
 
 	public static void main(String args[]) throws InvalidPlayerPositionException {
 
-		Map map = new Map();
-		map.initialiseTestMap();
-		
-		Cell startingCell = map.getCell(1, 1);
+		PacmanMap pacmanMap = new PacmanMap();
+		pacmanMap.initialiseMap(1);
+		ArrayList<Player> players = new ArrayList<Player>();
+		Cell startingCell = pacmanMap.getCell(1, 1);
 		Player player1 = new Player(1,startingCell);
-		
-		Cell startingCell2 = map.getCell(9, 9);
-		Player player2 = new Player(2,startingCell2);
-		
-		map.addPlayer(player1);
-		map.addPlayer(player2);
+		players.add( player1 );
+
+//		Cell startingCell2 = pacmanMap.getCell(18, 17);
+//		Player player2 = new Player(2,startingCell2);
+//		players.add( player2 );
+//
+//		Cell monsterCell = pacmanMap.getCell(10, 9);
+//		Monster monster = new Monster(1,monsterCell);
+//		
+		pacmanMap.addPlayer(player1);
+//		pacmanMap.addPlayer(player2);
+//		pacmanMap.addMonster(monster);
 		
 		Scanner sc =new Scanner(System.in);
 		String input;
-		map.displayGrid();
+		pacmanMap.displayGrid();
 		while(true) {
 			input = sc.next();
 			switch (input) {
 				case "w":{
-					map.movePlayer(player1, "U");
+					pacmanMap.movePlayer(player1, "U");
+//					pacmanMap.moveMonster(monster, players);
 					break;
 				}case "a":{
-					map.movePlayer(player1, "L");
+					pacmanMap.movePlayer(player1, "L");
+//					pacmanMap.moveMonster(monster, players);
 					break;
 				}case "s":{
-					map.movePlayer(player1, "D");
+					pacmanMap.movePlayer(player1, "D");
+//					pacmanMap.moveMonster(monster, players);
 					break;
 				}case "d":{
-					map.movePlayer(player1, "R");
+					pacmanMap.movePlayer(player1, "R");
+//					pacmanMap.moveMonster(monster, players);
 					break;
 				}
 			}
-			map.displayGrid();
+			pacmanMap.displayGrid();
 		}
 
 	}

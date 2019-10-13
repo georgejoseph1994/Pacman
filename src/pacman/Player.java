@@ -1,16 +1,11 @@
 package pacman;
 
-public class Player extends Occupant{
-	
-	int id;
-	char direction;
-	
-	Cell currentCell;
+public class Player extends MovableOccupant{
 	
 	public Player(int id,Cell startingCell) {
-		this.id = id;
+		super(id,startingCell);
 		this.representation = " P"+this.id+" ";
-		this.currentCell = startingCell;
+		this.identity = "A"+this.id;
 	}
 	
 

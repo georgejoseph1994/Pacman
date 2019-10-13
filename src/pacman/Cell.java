@@ -2,20 +2,24 @@ package pacman;
 
 public class Cell {
 
-	int row;
-	int col;
-	Occupant occupant;
+	protected int row;
+	protected int col;
+	protected Occupant occupant;
 
 	public Cell(int row, int col, Occupant occupant) {
 		this.row = row;
 		this.col = col;
 		this.occupant = occupant;
 	}
+	
+	public Cell(int row, int col) {
+		this.row = row;
+		this.col = col;
+		this.occupant = null;
+	}
 
 	public Occupant getOccupant() {
-
 		return this.occupant;
-
 	}
 
 	public int getRow() {
@@ -36,6 +40,12 @@ public class Cell {
 
 	public void setOccupant(Occupant occupant) {
 		this.occupant = occupant;
+	}
+	
+	public boolean equals(Cell cell) {
+		if(this.col==cell.col&&this.row==cell.row)
+			return true;
+		return false;
 	}
 
 }
