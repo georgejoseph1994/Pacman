@@ -12,11 +12,13 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.PlayerClient;
 
@@ -31,9 +33,7 @@ public class PlayScene extends GameScene {
 		System.out.println("Map Changed");
 		HBox hbox = this.generateHeaderHBox();
 		Group root = new Group();
-		Scene s = new Scene(root, 700, 700, Color.BLACK);
-
-		final Canvas canvas = new Canvas(700,700);
+		final Canvas canvas = new Canvas(610,670);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		 
 		gc.setFill(Color.BLACK);
@@ -61,7 +61,7 @@ public class PlayScene extends GameScene {
         GridPane gridPane = new GridPane();    
 
         //Setting size for the pane  
-        gridPane.setMinSize(400, 200); 
+        gridPane.setMinSize(400, 200);
 
         //Setting the padding  
         gridPane.setPadding(new Insets(10, 10, 10, 10)); 
@@ -71,12 +71,15 @@ public class PlayScene extends GameScene {
         gridPane.setHgap(5);       
 
         //Setting the Grid alignment 
-        gridPane.setAlignment(Pos.CENTER); 
-//        gridPane.setHalignment(arg0, arg1);
+        gridPane.setAlignment(Pos.CENTER);
         //Arranging all the nodes in the grid 
         gridPane.add(hbox, 0, 0, 2, 1);
+        hbox.setAlignment(Pos.CENTER);
         gridPane.add(root, 0, 1);
-        gridPane.setGridLinesVisible(true);
+        Label label = new Label("Use arrow keys to move your player");
+        gridPane.add(label, 0, 2);
+        GridPane.setHalignment(label, HPos.CENTER);
+
         this.scene = new Scene(gridPane);
         this.scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
     		public void handle(KeyEvent event) {
