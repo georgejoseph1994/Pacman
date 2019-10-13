@@ -20,7 +20,6 @@ public class PlayerElement extends Rectangle {
 	public PlayerElement(int x, int y, String color) {
 		super(y*32, x*32, 32, 32);
 		this.color = color;
-		System.out.println(color);
 	}
 	
 	public void render(GraphicsContext g) {

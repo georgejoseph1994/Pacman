@@ -229,8 +229,8 @@ public class PlayerClient extends UnicastRemoteObject implements ClientRMIInterf
 			lRemoteServer.removePlayerListener(client, client.playerNo);
 		} catch (RemoteException e) {
 			e.printStackTrace();
-	        System.exit(0);
 		}
+		System.exit(0);
 	 }
 
 }

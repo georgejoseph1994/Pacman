@@ -62,8 +62,10 @@ public class GameServer extends UnicastRemoteObject implements ServerRMIInterfac
 	
 private void notifyGameOver() {
 		System.out.println("Notify game over");
-		for(int i=0;i<clientsInactive.length;i++)
-			clients.remove(clientsInactive[i]);
+		for (int i = 0; i < clientsInactive.length; i ++)
+		    if (clients.containsKey(clientsInactive[i]))
+		    	clients.remove(clientsInactive[i]);
+		clientsInactive= new int[4];
 		for (Entry<Integer, ClientRMIInterface> client : clients.entrySet()) {
 			try {
 				client.getValue().gameOver();
@@ -176,10 +178,17 @@ private void notifyGameOver() {
 	}
 
 	@Override
-	public void removePlayerListener(ClientRMIInterface player, int playerNo) throws RemoteException {
+	public void removePlayerListener(ClientRMIInterface player, int playerNo)  throws RemoteException{
 		System.out.println("Removed player");
 //		clients.remove(player);
-		clientsInactive[clientsInactive.length] = playerNo;
+		try {
+			for(int i =0;i<clientsInactive.length;i++)
+				if(!clients.containsKey(clientsInactive[i]))
+					clientsInactive[i] = playerNo;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
