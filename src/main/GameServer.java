@@ -202,7 +202,7 @@ private void notifyGameOver() {
 
 		GameServer lServer = null;
 		try {
-			System.setProperty("java.rmi.server.hostname","192.168.1.9");
+			System.setProperty("java.rmi.server.hostname","192.168.43.117");
 			lServer = new GameServer();
 			// Binding the remote object (stub) in the registry
 
@@ -247,7 +247,7 @@ private void notifyGameOver() {
 //					if(lServer.clients.get(playerNumber) != null)
 					{
 						ClientRMIInterface failedClient = lServer.clients.get(playerNumber);
-						System.out.println("Player Failed "+playerFailed.getRepresentation().charAt(2) + " : " + failedClient);
+						System.out.println("Player Failed "+playerFailed.getRepresentation().charAt(2));
 						try {
 							failedClient.mapChanged(lServer.pacmanMap.displayGrid());
 							failedClient.playerFailed(lServer.pacmanMap.displayGrid());
@@ -262,6 +262,7 @@ private void notifyGameOver() {
 								wonClient.playerWon(lServer.pacmanMap.displayGrid());
 								lServer.notifyGameOver();
 								wonClient.stopGame();
+								lServer.players = new ArrayList<Player>();
 								lServer.playerCount = -1;
 								lServer.gameStart = false;
 
